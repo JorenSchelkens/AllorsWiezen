@@ -53,7 +53,7 @@ namespace Tests.Intranet.PersonTests
         {
             var before = new People(this.Session).Extent().ToArray();
 
-            var person = before.First(v => v.FirstName.Equals("John0"));
+            var person = before.First(v => v.FirstName.Equals("John"));
             var id = person.Id;
 
             var personOverview = this.people.Select(person);

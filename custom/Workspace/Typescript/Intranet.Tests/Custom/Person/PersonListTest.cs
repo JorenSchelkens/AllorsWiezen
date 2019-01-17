@@ -26,11 +26,11 @@ namespace Tests.Intranet.PersonTests
         [Fact]
         public void Table()
         {
-            var person = new People(this.Session).FindBy(M.Person.FirstName, "John0");
+            var person = new People(this.Session).FindBy(M.Person.FirstName, "John");
             var row = this.page.Table.FindRow(person);
-            var cell = row.FindCell("name");
+            var cell = row.FindCell("firstName");
 
-            Assert.Equal("John0 Doe0", cell.Element.Text);
+            Assert.Equal("John", cell.Element.Text);
         }
     }
 }

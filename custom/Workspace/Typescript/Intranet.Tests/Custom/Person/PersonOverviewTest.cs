@@ -24,17 +24,5 @@ namespace Tests.Intranet.PersonTests
             this.people.Select(person);
             Assert.Equal("Person", this.Driver.Title);
         }
-
-        [Fact]
-        public void NavigateToList()
-        {
-            var person = new People(this.Session).FindBy(M.Person.FirstName, "John");
-            var overviewPage = this.people.Select(person);
-            Assert.Equal("Person", this.Driver.Title);
-
-            overviewPage.List.Click();
-
-            Assert.Equal("People", this.Driver.Title);
-        }
     }
 }
