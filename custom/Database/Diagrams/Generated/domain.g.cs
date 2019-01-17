@@ -117,7 +117,7 @@ namespace Allors.Domain
 						global::System.String WorkItemDescription {set;}
 
 		}
-		public interface Organisation  : Localised, Deletable 
+		public interface Organisation  : AccessControlledObject, Localised, Deletable 
 		{
 						global::System.String Name {set;}
 

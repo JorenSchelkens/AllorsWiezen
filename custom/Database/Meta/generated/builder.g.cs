@@ -93,6 +93,7 @@ namespace Allors.Meta
 
 		internal void BuildInheritances()
 		{
+            new Inheritance(this.metaPopulation){ Subtype = (Composite)MetaOrganisation.Instance.ObjectType, Supertype = MetaAccessControlledObject.Instance.Interface};
             new Inheritance(this.metaPopulation){ Subtype = (Composite)MetaOrganisation.Instance.ObjectType, Supertype = MetaLocalised.Instance.Interface};
             new Inheritance(this.metaPopulation){ Subtype = (Composite)MetaOrganisation.Instance.ObjectType, Supertype = MetaDeletable.Instance.Interface};
             new Inheritance(this.metaPopulation){ Subtype = (Composite)MetaPerson.Instance.ObjectType, Supertype = MetaDeletable.Instance.Interface};
@@ -1773,6 +1774,8 @@ namespace Allors.Meta
 
 		internal void BuildImplementedRoles()
 		{
+            MetaOrganisation.Instance.DeniedPermissions = MetaOrganisation.Instance.Class.ConcreteRoleTypeByRoleType[MetaAccessControlledObject.Instance.DeniedPermissions];
+            MetaOrganisation.Instance.SecurityTokens = MetaOrganisation.Instance.Class.ConcreteRoleTypeByRoleType[MetaAccessControlledObject.Instance.SecurityTokens];
             MetaOrganisation.Instance.Locale = MetaOrganisation.Instance.Class.ConcreteRoleTypeByRoleType[MetaLocalised.Instance.Locale];
             MetaPerson.Instance.UserEmailConfirmed = MetaPerson.Instance.Class.ConcreteRoleTypeByRoleType[MetaUser.Instance.UserEmailConfirmed];
             MetaPerson.Instance.UserName = MetaPerson.Instance.Class.ConcreteRoleTypeByRoleType[MetaUser.Instance.UserName];

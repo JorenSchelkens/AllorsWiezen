@@ -1,7 +1,5 @@
 ﻿namespace Allors.Domain
 {
-    using Allors.Meta;
-
     public partial class Organisations
     {
         protected override void CustomSecure(Security config)

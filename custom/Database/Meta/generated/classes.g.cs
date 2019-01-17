@@ -21,6 +21,8 @@ namespace Allors.Meta
         public RoleType Employees;
 
 		// Inherited Roles
+        public ConcreteRoleType DeniedPermissions;
+        public ConcreteRoleType SecurityTokens;
         public ConcreteRoleType Locale;
 
 		// Defined Associations

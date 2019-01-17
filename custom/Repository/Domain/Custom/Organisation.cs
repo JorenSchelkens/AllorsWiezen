@@ -5,9 +5,13 @@ namespace Allors.Repository
     #region Allors
     [Id("3a5dcec7-308f-48c7-afee-35d38415aa0b")]
     #endregion
-    public partial class Organisation : Localised, Deletable
+    public partial class Organisation : AccessControlledObject, Localised, Deletable
     {
         #region inherited properties
+        public Permission[] DeniedPermissions { get; set; }
+
+        public SecurityToken[] SecurityTokens { get; set; }
+
         public Locale Locale { get; set; }
         #endregion
 
