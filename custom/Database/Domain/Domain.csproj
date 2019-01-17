@@ -1,0 +1,43 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>Allors.Domain</RootNamespace>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>TRACE</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\..\..\allors\Domains\Base\Database\Domain\Export\**\*.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Templates\allors.png" />
+    <None Remove="Templates\ProductQuote.odt" />
+    <None Remove="Templates\SalesInvoice.odt" />
+    <None Remove="Templates\SalesOrder.odt" />
+    <None Remove="Templates\WorkTask.odt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Templates\allors.png" />
+    <EmbeddedResource Include="Templates\WorkTask.odt" />
+    <EmbeddedResource Include="Templates\SalesInvoice.odt" />
+    <EmbeddedResource Include="Templates\SalesOrder.odt" />
+    <EmbeddedResource Include="Templates\ProductQuote.odt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\allors\Platform\Database\Framework\Allors.Framework\Allors.Framework.csproj" />
+    <ProjectReference Include="..\..\..\allors\Domains\Base\Document\Allors.Document\Allors.Document.csproj" />
+    <ProjectReference Include="..\Meta\Meta.csproj" />
+    <ProjectReference Include="..\Resources\Resources.csproj" />
+  </ItemGroup>
+
+</Project>
