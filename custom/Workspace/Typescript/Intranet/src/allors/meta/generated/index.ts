@@ -12,6 +12,7 @@ export {
     MetaTask,
     MetaUser,
     MetaWorkItem,
+    MetaEmployment,
     MetaOrganisation,
     MetaPerson,
     MetaSettings,

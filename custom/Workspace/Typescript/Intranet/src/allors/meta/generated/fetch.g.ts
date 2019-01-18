@@ -4,7 +4,7 @@
 // tslint:disable:no-consecutive-blank-lines
 
 import { MetaPopulation, Fetch, Tree } from '../../framework';
-import { TreeDeletable, TreeEnumeration, TreeUniquelyIdentifiable, TreeVersion, TreeLocalised, TreeObjectState, TreeTask, TreeUser, TreeWorkItem, TreeOrganisation, TreePerson, TreeSettings, TreeSingleton, TreeCounter, TreeMedia, TreeMediaContent, TreeTemplate, TreeTemplateType, TreePreparedExtent, TreePreparedFetch, TreeCountry, TreeCurrency, TreeLanguage, TreeLocale, TreeLocalisedText, TreeAccessControl, TreeLogin, TreePermission, TreeRole, TreeSecurityToken, TreeAutomatedAgent, TreeNotification, TreeNotificationList, TreeTaskAssignment, TreeTaskList, TreeUserGroup } from './tree.g';
+import { TreeDeletable, TreeEnumeration, TreeUniquelyIdentifiable, TreeVersion, TreeLocalised, TreeObjectState, TreeTask, TreeUser, TreeWorkItem, TreeEmployment, TreeOrganisation, TreePerson, TreeSettings, TreeSingleton, TreeCounter, TreeMedia, TreeMediaContent, TreeTemplate, TreeTemplateType, TreePreparedExtent, TreePreparedFetch, TreeCountry, TreeCurrency, TreeLanguage, TreeLocale, TreeLocalisedText, TreeAccessControl, TreeLogin, TreePermission, TreeRole, TreeSecurityToken, TreeAutomatedAgent, TreeNotification, TreeNotificationList, TreeTaskAssignment, TreeTaskList, TreeUserGroup } from './tree.g';
 
 export class FetchFactory {
     constructor(private metaPopulation: MetaPopulation) {
@@ -44,6 +44,10 @@ export class FetchFactory {
 
     public WorkItem(literal: FetchWorkItem): Fetch {
         return new Fetch(this.metaPopulation.objectTypeByName['WorkItem'], literal);
+    }
+
+    public Employment(literal: FetchEmployment): Fetch {
+        return new Fetch(this.metaPopulation.objectTypeByName['Employment'], literal);
     }
 
     public Organisation(literal: FetchOrganisation): Fetch {
@@ -158,12 +162,20 @@ export class FetchFactory {
 export interface FetchDeletable {
 
 
-   Organisation_Employees?: Fetch | FetchPerson;
+   Employment_Employer?: Fetch | FetchOrganisation;
+   Employment_Employee?: Fetch | FetchPerson;
 
+
+   Organisation_CurrentEmployees?: Fetch | FetchPerson;
+   Organisation_FormerEmployees?: Fetch | FetchPerson;
+
+   Organisation_EmploymentsWhereEmployer?: Fetch | FetchEmployment;
 
    Person_Picture?: Fetch | FetchMedia;
 
-   Person_OrganisationsWhereEmployee?: Fetch | FetchOrganisation;
+   Person_EmploymentsWhereEmployee?: Fetch | FetchEmployment;
+   Person_OrganisationWhereCurrentEmployee?: Fetch | FetchOrganisation;
+   Person_OrganisationsWhereFormerEmployee?: Fetch | FetchOrganisation;
    Person_TasksWhereParticipant?: Fetch | FetchTask;
    Person_TasksWherePerformer?: Fetch | FetchTask;
 
@@ -230,7 +242,9 @@ export interface FetchUniquelyIdentifiable {
 
    Person_Picture?: Fetch | FetchMedia;
 
-   Person_OrganisationsWhereEmployee?: Fetch | FetchOrganisation;
+   Person_EmploymentsWhereEmployee?: Fetch | FetchEmployment;
+   Person_OrganisationWhereCurrentEmployee?: Fetch | FetchOrganisation;
+   Person_OrganisationsWhereFormerEmployee?: Fetch | FetchOrganisation;
    Person_TasksWhereParticipant?: Fetch | FetchTask;
    Person_TasksWherePerformer?: Fetch | FetchTask;
 
@@ -274,8 +288,10 @@ export interface FetchLocalised {
    Locale?: Fetch | FetchLocale;
 
 
-   Organisation_Employees?: Fetch | FetchPerson;
+   Organisation_CurrentEmployees?: Fetch | FetchPerson;
+   Organisation_FormerEmployees?: Fetch | FetchPerson;
 
+   Organisation_EmploymentsWhereEmployer?: Fetch | FetchEmployment;
 
 
    LocalisedText_CountryWhereLocalisedName?: Fetch | FetchCountry;
@@ -313,7 +329,9 @@ export interface FetchUser {
 
    Person_Picture?: Fetch | FetchMedia;
 
-   Person_OrganisationsWhereEmployee?: Fetch | FetchOrganisation;
+   Person_EmploymentsWhereEmployee?: Fetch | FetchEmployment;
+   Person_OrganisationWhereCurrentEmployee?: Fetch | FetchOrganisation;
+   Person_OrganisationsWhereFormerEmployee?: Fetch | FetchOrganisation;
    Person_TasksWhereParticipant?: Fetch | FetchTask;
    Person_TasksWherePerformer?: Fetch | FetchTask;
 
@@ -331,10 +349,21 @@ export interface FetchWorkItem {
    include?: Tree | TreeWorkItem;
 }
 
+export interface FetchEmployment {
+   Employer?: Fetch | FetchOrganisation;
+   Employee?: Fetch | FetchPerson;
+
+
+
+   include?: Tree | TreeEmployment;
+}
+
 export interface FetchOrganisation {
-   Employees?: Fetch | FetchPerson;
+   CurrentEmployees?: Fetch | FetchPerson;
+   FormerEmployees?: Fetch | FetchPerson;
    Locale?: Fetch | FetchLocale;
 
+   EmploymentsWhereEmployer?: Fetch | FetchEmployment;
 
 
    include?: Tree | TreeOrganisation;
@@ -345,7 +374,9 @@ export interface FetchPerson {
    TaskList?: Fetch | FetchTaskList;
    NotificationList?: Fetch | FetchNotificationList;
 
-   OrganisationsWhereEmployee?: Fetch | FetchOrganisation;
+   EmploymentsWhereEmployee?: Fetch | FetchEmployment;
+   OrganisationWhereCurrentEmployee?: Fetch | FetchOrganisation;
+   OrganisationsWhereFormerEmployee?: Fetch | FetchOrganisation;
    TasksWhereParticipant?: Fetch | FetchTask;
    TasksWherePerformer?: Fetch | FetchTask;
    SingletonWhereGuest?: Fetch | FetchSingleton;

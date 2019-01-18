@@ -24,6 +24,11 @@ export class DefaultStateService extends StateService {
       objectType: m.Organisation,
       roleTypes: [m.Organisation.Name],
     });
+
+    this.peopleFilter = new SearchFactory({
+      objectType: m.Person,
+      roleTypes: [m.Person.FirstName, m.Person.LastName],
+    });
   }
 
   public get singletonId(): string {

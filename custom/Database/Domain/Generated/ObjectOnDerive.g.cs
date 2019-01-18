@@ -54,6 +54,21 @@ namespace Allors.Domain
 				return AccessControlOnDeriveMethodInvocation;
 			}
 		}
+	}public partial class EmploymentOnDerive : ObjectOnDerive
+	{
+	    private static readonly Allors.Meta.MethodInvocation EmploymentOnDeriveMethodInvocation = new Allors.Meta.MethodInvocation(Allors.Meta.M.Employment.ObjectType, Allors.Meta.M.Employment.OnDerive); 
+
+		public EmploymentOnDerive(Object @object) : base(@object)
+		{
+		}
+
+		public override Allors.Meta.MethodInvocation MethodInvocation
+		{
+			get
+			{
+				return EmploymentOnDeriveMethodInvocation;
+			}
+		}
 	}public partial class OrganisationOnDerive : ObjectOnDerive
 	{
 	    private static readonly Allors.Meta.MethodInvocation OrganisationOnDeriveMethodInvocation = new Allors.Meta.MethodInvocation(Allors.Meta.M.Organisation.ObjectType, Allors.Meta.M.Organisation.OnDerive); 

@@ -1,9 +1,14 @@
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { MatButtonModule, MatCardModule, MatDividerModule, MatFormFieldModule, MatIconModule, MatListModule, MatMenuModule, MatRadioModule, MatToolbarModule, MatTooltipModule, MatOptionModule, MatSelectModule, MatInputModule, MatGridListModule, MatCheckboxModule, MatChipsModule, MatButtonToggleModule } from '@angular/material';
 import { RouterModule } from '@angular/router';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule, MatCardModule, MatDividerModule, MatFormFieldModule, MatIconModule, MatListModule, MatMenuModule, MatRadioModule, MatToolbarModule, MatTooltipModule, MatOptionModule, MatSelectModule, MatInputModule, MatTabsModule } from '@angular/material';
 
+import { AllorsMaterialAutoCompleteModule } from '../../../../base/components/role/autocomplete';
+import { AllorsMaterialChipsModule } from '../../../../base/components/role/chips';
+import { AllorsMaterialFooterModule } from '../../../../base/components/footer';
+import { AllorsMaterialDatepickerModule } from '../../../../base/components/role/datepicker';
+import { AllorsMaterialDatetimepickerModule } from '../../../../base/components/role/datetimepicker';
 import { AllorsMaterialFileModule } from '../../../../base/components/role/file';
 import { AllorsMaterialInputModule } from '../../../../base/components/role/input';
 import { AllorsMaterialSelectModule } from '../../../../base/components/role/select';
@@ -12,55 +17,48 @@ import { AllorsMaterialSlideToggleModule } from '../../../../base/components/rol
 import { AllorsMaterialStaticModule } from '../../../../base/components/role/static';
 import { AllorsMaterialTextAreaModule } from '../../../../base/components/role/textarea';
 
-import { OrganisationOverviewSummaryModule } from './summary/organisation-overview-summary.module';
-import { OrganisationOverviewDetailModule } from './detail/organisation-overview-detail.module';
-import { EmployementOverviewPanelModule } from '../../employment/overview/panel/employment-overview-panel.module';
-
-import { OrganisationOverviewComponent } from './organisation-overview.component';
-export { OrganisationOverviewComponent } from './organisation-overview.component';
+import { EmploymentEditComponent } from './employment-edit.component';
+export { EmploymentEditComponent } from './employment-edit.component';
 
 @NgModule({
   declarations: [
-    OrganisationOverviewComponent,
+    EmploymentEditComponent,
   ],
   exports: [
-    OrganisationOverviewComponent,
+    EmploymentEditComponent,
   ],
   imports: [
-    OrganisationOverviewSummaryModule,
-    OrganisationOverviewDetailModule,
-    EmployementOverviewPanelModule,
-
+    AllorsMaterialAutoCompleteModule,
+    AllorsMaterialChipsModule,
+    AllorsMaterialDatepickerModule,
+    AllorsMaterialDatetimepickerModule,
     AllorsMaterialFileModule,
+    AllorsMaterialFooterModule,
     AllorsMaterialInputModule,
     AllorsMaterialSelectModule,
     AllorsMaterialSideNavToggleModule,
     AllorsMaterialSlideToggleModule,
     AllorsMaterialStaticModule,
     AllorsMaterialTextAreaModule,
+    CommonModule,
 
+    FormsModule,
     MatButtonModule,
-    MatButtonToggleModule,
     MatCardModule,
-    MatCheckboxModule,
-    MatChipsModule,
     MatDividerModule,
     MatFormFieldModule,
-    MatGridListModule,
     MatIconModule,
     MatInputModule,
     MatListModule,
     MatMenuModule,
     MatRadioModule,
     MatSelectModule,
+    MatTabsModule,
     MatToolbarModule,
     MatTooltipModule,
     MatOptionModule,
-
-    CommonModule,
-    FormsModule,
     ReactiveFormsModule,
     RouterModule,
   ],
 })
-export class OrganisationOverviewModule { }
+export class EmploymentEditModule { }

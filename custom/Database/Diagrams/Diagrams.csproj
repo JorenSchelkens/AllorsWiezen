@@ -44,6 +44,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Relation\Employement.cd" />
     <None Include="Relation\Relation.cd" />
     <None Include="Temp.cd" />
   </ItemGroup>

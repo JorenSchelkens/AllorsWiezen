@@ -1,5 +1,47 @@
 namespace Allors.Meta
 {
+    public partial class MetaEmployment : MetaClass
+	{
+	    public static MetaEmployment Instance { get; internal set;}
+
+		public override Class Class { get; }
+
+		// Defined Methods
+
+		// Inherited Methods
+        public MethodType OnBuild;
+        public MethodType OnPostBuild;
+        public MethodType OnPreDerive;
+        public MethodType OnDerive;
+        public MethodType OnPostDerive;
+        public MethodType Delete;
+
+		// Defined Roles
+        public RoleType Employer;
+        public RoleType Employee;
+        public RoleType From;
+        public RoleType Through;
+
+		// Inherited Roles
+        public ConcreteRoleType DeniedPermissions;
+        public ConcreteRoleType SecurityTokens;
+
+		// Defined Associations
+
+		// Inherited Associations
+
+
+		internal MetaEmployment(MetaPopulation metaPopulation)
+        {
+			this.Class = new Class(metaPopulation, new System.Guid("DBDC5419-FF3D-4888-A7FF-089CA469CE54"))
+			{
+				SingularName = "Employment",
+				PluralName = "Employments",
+			};
+        }
+
+	}
+
     public partial class MetaOrganisation : MetaClass
 	{
 	    public static MetaOrganisation Instance { get; internal set;}
@@ -18,7 +60,8 @@ namespace Allors.Meta
 
 		// Defined Roles
         public RoleType Name;
-        public RoleType Employees;
+        public RoleType CurrentEmployees;
+        public RoleType FormerEmployees;
 
 		// Inherited Roles
         public ConcreteRoleType DeniedPermissions;
@@ -26,6 +69,7 @@ namespace Allors.Meta
         public ConcreteRoleType Locale;
 
 		// Defined Associations
+        public AssociationType EmploymentsWhereEmployer;
 
 		// Inherited Associations
 
@@ -78,7 +122,9 @@ namespace Allors.Meta
         public ConcreteRoleType UniqueId;
 
 		// Defined Associations
-        public AssociationType OrganisationsWhereEmployee;
+        public AssociationType EmploymentsWhereEmployee;
+        public AssociationType OrganisationWhereCurrentEmployee;
+        public AssociationType OrganisationsWhereFormerEmployee;
         public AssociationType TasksWhereParticipant;
         public AssociationType TasksWherePerformer;
 

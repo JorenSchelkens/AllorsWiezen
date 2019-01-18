@@ -478,19 +478,53 @@ namespace Allors.Domain
 
 
 
-		virtual public global::Allors.Extent<Organisation> OrganisationsWhereEmployee
+		virtual public global::Allors.Extent<Employment> EmploymentsWhereEmployee
 		{ 
 			get
 			{
-				return Strategy.GetCompositeAssociations(Meta.OrganisationsWhereEmployee.RelationType);
+				return Strategy.GetCompositeAssociations(Meta.EmploymentsWhereEmployee.RelationType);
 			}
 		}
 
-		virtual public bool ExistOrganisationsWhereEmployee
+		virtual public bool ExistEmploymentsWhereEmployee
 		{
 			get
 			{
-				return Strategy.ExistCompositeAssociations(Meta.OrganisationsWhereEmployee.RelationType);
+				return Strategy.ExistCompositeAssociations(Meta.EmploymentsWhereEmployee.RelationType);
+			}
+		}
+
+
+		virtual public Organisation OrganisationWhereCurrentEmployee
+		{ 
+			get
+			{
+				return (Organisation) Strategy.GetCompositeAssociation(Meta.OrganisationWhereCurrentEmployee.RelationType);
+			}
+		} 
+
+		virtual public bool ExistOrganisationWhereCurrentEmployee
+		{
+			get
+			{
+				return Strategy.ExistCompositeAssociation(Meta.OrganisationWhereCurrentEmployee.RelationType);
+			}
+		}
+
+
+		virtual public global::Allors.Extent<Organisation> OrganisationsWhereFormerEmployee
+		{ 
+			get
+			{
+				return Strategy.GetCompositeAssociations(Meta.OrganisationsWhereFormerEmployee.RelationType);
+			}
+		}
+
+		virtual public bool ExistOrganisationsWhereFormerEmployee
+		{
+			get
+			{
+				return Strategy.ExistCompositeAssociations(Meta.OrganisationsWhereFormerEmployee.RelationType);
 			}
 		}
 

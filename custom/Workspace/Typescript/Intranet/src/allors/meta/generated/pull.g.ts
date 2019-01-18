@@ -5,8 +5,8 @@
 
 import { MetaPopulation, Pull, FlatPull, Fetch, Tree } from '../../framework';
 
-import { FetchDeletable, FetchEnumeration, FetchUniquelyIdentifiable, FetchVersion, FetchLocalised, FetchObjectState, FetchTask, FetchUser, FetchWorkItem, FetchOrganisation, FetchPerson, FetchSettings, FetchSingleton, FetchCounter, FetchMedia, FetchMediaContent, FetchTemplate, FetchTemplateType, FetchPreparedExtent, FetchPreparedFetch, FetchCountry, FetchCurrency, FetchLanguage, FetchLocale, FetchLocalisedText, FetchAccessControl, FetchLogin, FetchPermission, FetchRole, FetchSecurityToken, FetchAutomatedAgent, FetchNotification, FetchNotificationList, FetchTaskAssignment, FetchTaskList, FetchUserGroup } from './fetch.g';
-import { TreeDeletable, TreeEnumeration, TreeUniquelyIdentifiable, TreeVersion, TreeLocalised, TreeObjectState, TreeTask, TreeUser, TreeWorkItem, TreeOrganisation, TreePerson, TreeSettings, TreeSingleton, TreeCounter, TreeMedia, TreeMediaContent, TreeTemplate, TreeTemplateType, TreePreparedExtent, TreePreparedFetch, TreeCountry, TreeCurrency, TreeLanguage, TreeLocale, TreeLocalisedText, TreeAccessControl, TreeLogin, TreePermission, TreeRole, TreeSecurityToken, TreeAutomatedAgent, TreeNotification, TreeNotificationList, TreeTaskAssignment, TreeTaskList, TreeUserGroup } from './tree.g';
+import { FetchDeletable, FetchEnumeration, FetchUniquelyIdentifiable, FetchVersion, FetchLocalised, FetchObjectState, FetchTask, FetchUser, FetchWorkItem, FetchEmployment, FetchOrganisation, FetchPerson, FetchSettings, FetchSingleton, FetchCounter, FetchMedia, FetchMediaContent, FetchTemplate, FetchTemplateType, FetchPreparedExtent, FetchPreparedFetch, FetchCountry, FetchCurrency, FetchLanguage, FetchLocale, FetchLocalisedText, FetchAccessControl, FetchLogin, FetchPermission, FetchRole, FetchSecurityToken, FetchAutomatedAgent, FetchNotification, FetchNotificationList, FetchTaskAssignment, FetchTaskList, FetchUserGroup } from './fetch.g';
+import { TreeDeletable, TreeEnumeration, TreeUniquelyIdentifiable, TreeVersion, TreeLocalised, TreeObjectState, TreeTask, TreeUser, TreeWorkItem, TreeEmployment, TreeOrganisation, TreePerson, TreeSettings, TreeSingleton, TreeCounter, TreeMedia, TreeMediaContent, TreeTemplate, TreeTemplateType, TreePreparedExtent, TreePreparedFetch, TreeCountry, TreeCurrency, TreeLanguage, TreeLocale, TreeLocalisedText, TreeAccessControl, TreeLogin, TreePermission, TreeRole, TreeSecurityToken, TreeAutomatedAgent, TreeNotification, TreeNotificationList, TreeTaskAssignment, TreeTaskList, TreeUserGroup } from './tree.g';
 
 export class PullFactory {
     constructor(private metaPopulation: MetaPopulation) {
@@ -46,6 +46,10 @@ export class PullFactory {
 
     public WorkItem(literal?: PullWorkItem): Pull {
         return new Pull(this.metaPopulation.objectTypeByName['WorkItem'], literal);
+    }
+
+    public Employment(literal?: PullEmployment): Pull {
+        return new Pull(this.metaPopulation.objectTypeByName['Employment'], literal);
     }
 
     public Organisation(literal?: PullOrganisation): Pull {
@@ -209,6 +213,12 @@ export interface PullWorkItem extends FlatPull {
     fetch?: Fetch | FetchWorkItem;
 
     include?: Tree | TreeWorkItem;
+}
+
+export interface PullEmployment extends FlatPull {
+    fetch?: Fetch | FetchEmployment;
+
+    include?: Tree | TreeEmployment;
 }
 
 export interface PullOrganisation extends FlatPull {

@@ -9,6 +9,7 @@ import { UniquelyIdentifiable } from './UniquelyIdentifiable.g';
 import { Media } from './Media.g';
 import { TaskList } from './TaskList.g';
 import { NotificationList } from './NotificationList.g';
+import { Employment } from './Employment.g';
 import { Organisation } from './Organisation.g';
 import { Task } from './Task.g';
 import { Singleton } from './Singleton.g';
@@ -44,7 +45,13 @@ MiddleName: string;
 
 
 
-OrganisationsWhereEmployee: Organisation[];
+EmploymentsWhereEmployee: Employment[];
+
+
+    readonly OrganisationWhereCurrentEmployee: Organisation;
+
+
+    readonly OrganisationsWhereFormerEmployee: Organisation[];
 
 
 TasksWhereParticipant: Task[];

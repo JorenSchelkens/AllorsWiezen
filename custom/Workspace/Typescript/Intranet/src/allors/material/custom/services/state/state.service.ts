@@ -8,4 +8,5 @@ export abstract class StateService {
     public organisationId$: Observable<string>;
 
     public organisationsFilter: SearchFactory;
+    public peopleFilter: SearchFactory;
 }

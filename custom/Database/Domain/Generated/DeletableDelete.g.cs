@@ -9,7 +9,22 @@ namespace Allors.Domain
 		}
 	}
 
-	public partial class OrganisationDelete : DeletableDelete
+	public partial class EmploymentDelete : DeletableDelete
+	{
+	    private static readonly Allors.Meta.MethodInvocation EmploymentDeleteMethodInvocation = new Allors.Meta.MethodInvocation(Allors.Meta.M.Employment.ObjectType, Allors.Meta.M.Employment.Delete); 
+
+		public EmploymentDelete(Deletable @object) : base(@object)
+		{
+		}
+
+		public override Allors.Meta.MethodInvocation MethodInvocation
+		{
+			get
+			{
+				return EmploymentDeleteMethodInvocation;
+			}
+		}
+	}public partial class OrganisationDelete : DeletableDelete
 	{
 	    private static readonly Allors.Meta.MethodInvocation OrganisationDeleteMethodInvocation = new Allors.Meta.MethodInvocation(Allors.Meta.M.Organisation.ObjectType, Allors.Meta.M.Organisation.Delete); 
 

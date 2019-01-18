@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Interface Name="Allors.Domain.Organisation" BaseTypeListCollapsed="true">
-    <Position X="2.25" Y="1.5" Width="1.5" />
+    <Position X="1.25" Y="2.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAIAAAQAAAAAAAAAAAAAAAAAQAA=</HashCode>
       <FileName>Generated\domain.g.cs</FileName>
@@ -12,21 +12,22 @@
     </ShowAsAssociation>
   </Interface>
   <Interface Name="Allors.Domain.Person">
-    <Position X="5.75" Y="1.5" Width="1.5" />
+    <Position X="6" Y="2" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAgEAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAg=</HashCode>
       <FileName>Generated\domain.g.cs</FileName>
     </TypeIdentifier>
-    <ShowAsAssociation>
-      <Property Name="Picture" />
-    </ShowAsAssociation>
   </Interface>
-  <Interface Name="Allors.Domain.Media" Collapsed="true">
-    <Position X="9.25" Y="1.5" Width="1.5" />
+  <Interface Name="Allors.Domain.Employement">
+    <Position X="4" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAECAAAAAAABAEAAAAAAAQAAAABAAAA=</HashCode>
+      <HashCode>AAAEAAAAACAAAAAAAAAAAAAACAAAAAAAIAAAAAAAAAA=</HashCode>
       <FileName>Generated\domain.g.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Employee" />
+      <Property Name="Employer" />
+    </ShowAsAssociation>
   </Interface>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>

@@ -61,6 +61,7 @@ namespace Allors.Meta
 
 		internal void BuildClasses()
 		{
+            MetaEmployment.Instance = new MetaEmployment(this.metaPopulation);
             MetaOrganisation.Instance = new MetaOrganisation(this.metaPopulation);
             MetaPerson.Instance = new MetaPerson(this.metaPopulation);
             MetaSettings.Instance = new MetaSettings(this.metaPopulation);
@@ -93,6 +94,8 @@ namespace Allors.Meta
 
 		internal void BuildInheritances()
 		{
+            new Inheritance(this.metaPopulation){ Subtype = (Composite)MetaEmployment.Instance.ObjectType, Supertype = MetaAccessControlledObject.Instance.Interface};
+            new Inheritance(this.metaPopulation){ Subtype = (Composite)MetaEmployment.Instance.ObjectType, Supertype = MetaDeletable.Instance.Interface};
             new Inheritance(this.metaPopulation){ Subtype = (Composite)MetaOrganisation.Instance.ObjectType, Supertype = MetaAccessControlledObject.Instance.Interface};
             new Inheritance(this.metaPopulation){ Subtype = (Composite)MetaOrganisation.Instance.ObjectType, Supertype = MetaLocalised.Instance.Interface};
             new Inheritance(this.metaPopulation){ Subtype = (Composite)MetaOrganisation.Instance.ObjectType, Supertype = MetaDeletable.Instance.Interface};
@@ -167,6 +170,7 @@ namespace Allors.Meta
 
 		internal void BuildRoles()
 		{
+			BuildRolesEmployment();
 			BuildRolesOrganisation();
 			BuildRolesPerson();
 			BuildRolesSettings();
@@ -214,6 +218,54 @@ namespace Allors.Meta
 			BuildRolesWorkItem();
 		}
 
+	private void BuildRolesEmployment() {
+
+	{
+		var relationType = new RelationType(this.metaPopulation, new System.Guid("12AC77FF-5E0B-4E72-B9AE-8375CDD840DE"), new System.Guid("BCFC78B7-0075-4270-BB0F-C19AA398CE18"), new System.Guid("8A7B367C-C0CD-4E8B-B169-4F9A400FC30E"));
+		relationType.AssociationType.ObjectType = MetaEmployment.Instance;
+		relationType.Workspace = true;
+		relationType.AssignedMultiplicity = Allors.Multiplicity.ManyToOne;
+		relationType.IsIndexed = true;
+		relationType.RoleType.ObjectType = MetaOrganisation.Instance;
+		relationType.RoleType.SingularName = "Employer";
+		relationType.RoleType.PluralName = "Employers";
+		relationType.RoleType.IsRequired = true;
+		MetaEmployment.Instance.Employer = relationType.RoleType; 
+	}
+	{
+		var relationType = new RelationType(this.metaPopulation, new System.Guid("35B8F4AD-E291-4ADB-B311-980BB1685BFD"), new System.Guid("25270F26-6F40-4D6D-AACD-BBC7D56DFD56"), new System.Guid("9BA61F25-3547-4364-8C20-A7A68A05EC37"));
+		relationType.AssociationType.ObjectType = MetaEmployment.Instance;
+		relationType.Workspace = true;
+		relationType.AssignedMultiplicity = Allors.Multiplicity.ManyToOne;
+		relationType.IsIndexed = true;
+		relationType.RoleType.ObjectType = MetaPerson.Instance;
+		relationType.RoleType.SingularName = "Employee";
+		relationType.RoleType.PluralName = "Employees";
+		relationType.RoleType.IsRequired = true;
+		MetaEmployment.Instance.Employee = relationType.RoleType; 
+	}
+	{
+		var relationType = new RelationType(this.metaPopulation, new System.Guid("28BD57B7-9653-45E0-A2BB-EE53A4F3642C"), new System.Guid("5A2EB977-C8AA-4723-A8F6-B048C54556C7"), new System.Guid("5937A273-AC8A-43C1-8E8D-51035C351B69"));
+		relationType.AssociationType.ObjectType = MetaEmployment.Instance;
+		relationType.Workspace = true;
+		relationType.RoleType.ObjectType = MetaDateTime.Instance;
+		relationType.RoleType.SingularName = "From";
+		relationType.RoleType.PluralName = "Froms";
+		relationType.RoleType.IsRequired = true;
+		MetaEmployment.Instance.From = relationType.RoleType; 
+	}
+	{
+		var relationType = new RelationType(this.metaPopulation, new System.Guid("A1495CB5-47D5-4D60-97F4-380BE9120865"), new System.Guid("E1423D7E-623A-4D68-B5B9-9E95A0EA5118"), new System.Guid("8832FE15-CC92-42EA-B15C-DFFB6E228193"));
+		relationType.AssociationType.ObjectType = MetaEmployment.Instance;
+		relationType.Workspace = true;
+		relationType.RoleType.ObjectType = MetaDateTime.Instance;
+		relationType.RoleType.SingularName = "Through";
+		relationType.RoleType.PluralName = "Throughs";
+		MetaEmployment.Instance.Through = relationType.RoleType; 
+	}
+	}
+
+
 	private void BuildRolesOrganisation() {
 
 	{
@@ -232,12 +284,25 @@ namespace Allors.Meta
 		var relationType = new RelationType(this.metaPopulation, new System.Guid("FEEA239C-D356-4732-9C7B-DCAC1BD9A237"), new System.Guid("708D8F20-2CB9-4A39-A476-E8920AFAC6F7"), new System.Guid("5EFC6B5F-2850-49E8-814A-E29AE567E69B"));
 		relationType.AssociationType.ObjectType = MetaOrganisation.Instance;
 		relationType.Workspace = true;
-		relationType.AssignedMultiplicity = Allors.Multiplicity.ManyToMany;
+		relationType.AssignedMultiplicity = Allors.Multiplicity.OneToMany;
+		relationType.IsDerived = true;
 		relationType.IsIndexed = true;
 		relationType.RoleType.ObjectType = MetaPerson.Instance;
-		relationType.RoleType.SingularName = "Employee";
-		relationType.RoleType.PluralName = "Employees";
-		MetaOrganisation.Instance.Employees = relationType.RoleType; 
+		relationType.RoleType.SingularName = "CurrentEmployee";
+		relationType.RoleType.PluralName = "CurrentEmployees";
+		MetaOrganisation.Instance.CurrentEmployees = relationType.RoleType; 
+	}
+	{
+		var relationType = new RelationType(this.metaPopulation, new System.Guid("A56B4D52-90CB-4A21-B7C1-58F0F7132D13"), new System.Guid("E2200A6C-B561-4579-A6A9-824FE079A973"), new System.Guid("8813DE45-D779-4E82-816E-C86CFC617CEE"));
+		relationType.AssociationType.ObjectType = MetaOrganisation.Instance;
+		relationType.Workspace = true;
+		relationType.AssignedMultiplicity = Allors.Multiplicity.ManyToMany;
+		relationType.IsDerived = true;
+		relationType.IsIndexed = true;
+		relationType.RoleType.ObjectType = MetaPerson.Instance;
+		relationType.RoleType.SingularName = "FormerEmployee";
+		relationType.RoleType.PluralName = "FormerEmployees";
+		MetaOrganisation.Instance.FormerEmployees = relationType.RoleType; 
 	}
 	}
 
@@ -1774,6 +1839,8 @@ namespace Allors.Meta
 
 		internal void BuildImplementedRoles()
 		{
+            MetaEmployment.Instance.DeniedPermissions = MetaEmployment.Instance.Class.ConcreteRoleTypeByRoleType[MetaAccessControlledObject.Instance.DeniedPermissions];
+            MetaEmployment.Instance.SecurityTokens = MetaEmployment.Instance.Class.ConcreteRoleTypeByRoleType[MetaAccessControlledObject.Instance.SecurityTokens];
             MetaOrganisation.Instance.DeniedPermissions = MetaOrganisation.Instance.Class.ConcreteRoleTypeByRoleType[MetaAccessControlledObject.Instance.DeniedPermissions];
             MetaOrganisation.Instance.SecurityTokens = MetaOrganisation.Instance.Class.ConcreteRoleTypeByRoleType[MetaAccessControlledObject.Instance.SecurityTokens];
             MetaOrganisation.Instance.Locale = MetaOrganisation.Instance.Class.ConcreteRoleTypeByRoleType[MetaLocalised.Instance.Locale];
@@ -1860,7 +1927,10 @@ namespace Allors.Meta
 
 		internal void BuildAssociations()
 		{
-            MetaPerson.Instance.OrganisationsWhereEmployee = MetaOrganisation.Instance.Employees.AssociationType;
+            MetaOrganisation.Instance.EmploymentsWhereEmployer = MetaEmployment.Instance.Employer.AssociationType;
+            MetaPerson.Instance.EmploymentsWhereEmployee = MetaEmployment.Instance.Employee.AssociationType;
+            MetaPerson.Instance.OrganisationWhereCurrentEmployee = MetaOrganisation.Instance.CurrentEmployees.AssociationType;
+            MetaPerson.Instance.OrganisationsWhereFormerEmployee = MetaOrganisation.Instance.FormerEmployees.AssociationType;
             MetaPerson.Instance.TasksWhereParticipant = MetaTask.Instance.Participants.AssociationType;
             MetaPerson.Instance.TasksWherePerformer = MetaTask.Instance.Performer.AssociationType;
             MetaSettings.Instance.SingletonWhereSettings = MetaSingleton.Instance.Settings.AssociationType;
@@ -2067,6 +2137,12 @@ namespace Allors.Meta
 
 		internal void BuildInheritedMethods()
 		{
+				MetaEmployment.Instance.OnBuild = MetaObject.Instance.OnBuild;
+				MetaEmployment.Instance.OnPostBuild = MetaObject.Instance.OnPostBuild;
+				MetaEmployment.Instance.OnPreDerive = MetaObject.Instance.OnPreDerive;
+				MetaEmployment.Instance.OnDerive = MetaObject.Instance.OnDerive;
+				MetaEmployment.Instance.OnPostDerive = MetaObject.Instance.OnPostDerive;
+				MetaEmployment.Instance.Delete = MetaDeletable.Instance.Delete;
 				MetaOrganisation.Instance.OnBuild = MetaObject.Instance.OnBuild;
 				MetaOrganisation.Instance.OnPostBuild = MetaObject.Instance.OnPostBuild;
 				MetaOrganisation.Instance.OnPreDerive = MetaObject.Instance.OnPreDerive;
@@ -2265,6 +2341,7 @@ namespace Allors.Meta
 
 		internal void ExtendClasses()
 		{
+            MetaEmployment.Instance.Extend();
             MetaOrganisation.Instance.Extend();
             MetaPerson.Instance.Extend();
             MetaSettings.Instance.Extend();

@@ -32,9 +32,21 @@ namespace Allors.Repository
         [RoleId("5EFC6B5F-2850-49E8-814A-E29AE567E69B")]
         [Indexed]
         #endregion
-        [Multiplicity(Multiplicity.ManyToMany)]
+        [Multiplicity(Multiplicity.OneToMany)]
+        [Derived]
         [Workspace]
-        public Person[] Employees { get; set; }
+        public Person[] CurrentEmployees { get; set; }
+
+        #region Allors
+        [Id("A56B4D52-90CB-4A21-B7C1-58F0F7132D13")]
+        [AssociationId("E2200A6C-B561-4579-A6A9-824FE079A973")]
+        [RoleId("8813DE45-D779-4E82-816E-C86CFC617CEE")]
+        [Indexed]
+        #endregion
+        [Multiplicity(Multiplicity.ManyToMany)]
+        [Derived]
+        [Workspace]
+        public Person[] FormerEmployees { get; set; }
 
         #region inherited methods
 

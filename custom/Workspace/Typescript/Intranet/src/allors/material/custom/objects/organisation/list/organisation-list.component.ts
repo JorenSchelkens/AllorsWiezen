@@ -98,7 +98,7 @@ export class OrganisationListComponent implements OnInit, OnDestroy {
               predicate,
               sort: sorter.create(sort),
               include: {
-                Employees: x,
+                CurrentEmployees: x,
               },
               arguments: this.filterService.arguments(filterFields),
               skip: pageEvent.pageIndex * pageEvent.pageSize,

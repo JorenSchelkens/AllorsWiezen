@@ -31,8 +31,8 @@ namespace Allors
             var allors = new OrganisationBuilder(this.Session).WithName("Allors").Build();
             var acme = new OrganisationBuilder(this.Session).WithName("Acme").Build();
 
-            acme.AddEmployee(john);
-            acme.AddEmployee(jane);
+            new EmploymentBuilder(this.Session).WithEmployer(acme).WithEmployee(john).Build();
+            new EmploymentBuilder(this.Session).WithEmployer(acme).WithEmployee(jane).Build();
         }
 
         private void SetupUser(Person john)

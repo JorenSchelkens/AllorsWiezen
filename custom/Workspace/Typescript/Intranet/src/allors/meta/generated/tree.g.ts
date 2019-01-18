@@ -45,6 +45,10 @@ export class TreeFactory {
         return new Tree(this.metaPopulation.objectTypeByName['WorkItem'], literal);
     }
 
+    public Employment(literal: TreeEmployment): Tree {
+        return new Tree(this.metaPopulation.objectTypeByName['Employment'], literal);
+    }
+
     public Organisation(literal: TreeOrganisation): Tree {
         return new Tree(this.metaPopulation.objectTypeByName['Organisation'], literal);
     }
@@ -156,7 +160,11 @@ export class TreeFactory {
 
 export interface TreeDeletable {
 
-   Organisation_Employees?: TreePerson;
+   Employment_Employer?: TreeOrganisation;
+   Employment_Employee?: TreePerson;
+
+   Organisation_CurrentEmployees?: TreePerson;
+   Organisation_FormerEmployees?: TreePerson;
 
    Person_Picture?: TreeMedia;
 
@@ -206,7 +214,8 @@ export interface TreeVersion {
 export interface TreeLocalised {
    Locale?: Tree | TreeLocale;
 
-   Organisation_Employees?: TreePerson;
+   Organisation_CurrentEmployees?: TreePerson;
+   Organisation_FormerEmployees?: TreePerson;
 
 
 }
@@ -240,8 +249,16 @@ export interface TreeWorkItem {
 }
 
 
+export interface TreeEmployment {
+   Employer?: Tree | TreeOrganisation;
+   Employee?: Tree | TreePerson;
+
+}
+
+
 export interface TreeOrganisation {
-   Employees?: Tree | TreePerson;
+   CurrentEmployees?: Tree | TreePerson;
+   FormerEmployees?: Tree | TreePerson;
    Locale?: Tree | TreeLocale;
 
 }

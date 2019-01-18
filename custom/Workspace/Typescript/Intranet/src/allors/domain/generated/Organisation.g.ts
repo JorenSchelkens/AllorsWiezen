@@ -7,6 +7,7 @@ import { Localised } from './Localised.g';
 import { Deletable } from './Deletable.g';
 import { Person } from './Person.g';
 import { Locale } from './Locale.g';
+import { Employment } from './Employment.g';
 
 export interface Organisation extends INewSessionObject,Localised ,Deletable {
     CanReadName: boolean;
@@ -16,16 +17,18 @@ export interface Organisation extends INewSessionObject,Localised ,Deletable {
 Name: string;
 
 
-    CanReadEmployees: boolean;
+    CanReadCurrentEmployees: boolean;
 
-    CanWriteEmployees: boolean;
+    readonly CurrentEmployees: Person[];
 
-Employees: Person[];
 
-    AddEmployee(value: Person);
+    CanReadFormerEmployees: boolean;
 
-    RemoveEmployee(value: Person);
+    readonly FormerEmployees: Person[];
 
+
+
+EmploymentsWhereEmployer: Employment[];
 
 
 }

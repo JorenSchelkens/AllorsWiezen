@@ -22,6 +22,7 @@ export const ids = {
  Task: '84eb0e6e68e1478ca35f6036d45792be',
  User: 'a0309c3b6f804777983e6e69800df5be',
  WorkItem: 'fbea29c661094163a0889f0b4deac896',
+ Employment: 'dbdc5419ff3d4888a7ff089ca469ce54',
  Organisation: '3a5dcec7308f48c7afee35d38415aa0b',
  Person: 'c799ca62a554467d9aa21663293bb37f',
  Settings: 'dc94d0bfe08d4b01a91f723ced6f3c36',
@@ -139,6 +140,15 @@ export const data: Data = {
     ],
   classes:
     [
+      {
+        id: ids.Employment,
+        name: 'Employment',
+        plural: 'Employments',
+        interfaces:
+          [
+           'Deletable'
+          ],
+      },
       {
         id: ids.Organisation,
         name: 'Organisation',
@@ -391,6 +401,98 @@ export const data: Data = {
   relationTypes:
     [
       {
+        id: '12ac77ff5e0b4e72b9ae8375cdd840de',
+        associationType: {
+          id: 'bcfc78b700754270bb0fc19aa398ce18',
+          objectTypeId: ids.Employment,
+          name: 'EmploymentsWhereEmployer',
+          singular: 'Employment',
+          isOne: false,
+        },
+        roleType: {
+          id: '8a7b367cc0cd4e8bb1694f9a400fc30e',
+          objectTypeId: ids.Organisation,
+          name: 'Employer',
+          singular: 'Employer',
+          isUnit: false,
+          isOne: true,
+          isRequired: true,
+        },
+        concreteRoleTypes: 
+          [
+          ],
+        isDerived: false,
+      },
+      {
+        id: '35b8f4ade2914adbb311980bb1685bfd',
+        associationType: {
+          id: '25270f266f404d6daacdbbc7d56dfd56',
+          objectTypeId: ids.Employment,
+          name: 'EmploymentsWhereEmployee',
+          singular: 'Employment',
+          isOne: false,
+        },
+        roleType: {
+          id: '9ba61f25354743648c20a7a68a05ec37',
+          objectTypeId: ids.Person,
+          name: 'Employee',
+          singular: 'Employee',
+          isUnit: false,
+          isOne: true,
+          isRequired: true,
+        },
+        concreteRoleTypes: 
+          [
+          ],
+        isDerived: false,
+      },
+      {
+        id: '28bd57b7965345e0a2bbee53a4f3642c',
+        associationType: {
+          id: '5a2eb977c8aa4723a8f6b048c54556c7',
+          objectTypeId: ids.Employment,
+          name: 'EmploymentWhereFrom',
+          singular: 'Employment',
+          isOne: true,
+        },
+        roleType: {
+          id: '5937a273ac8a43c18e8d51035c351b69',
+          objectTypeId: ids.DateTime,
+          name: 'From',
+          singular: 'From',
+          isUnit: true,
+          isOne: true,
+          isRequired: true,
+        },
+        concreteRoleTypes: 
+          [
+          ],
+        isDerived: false,
+      },
+      {
+        id: 'a1495cb547d54d6097f4380be9120865',
+        associationType: {
+          id: 'e1423d7e623a4d68b5b99e95a0ea5118',
+          objectTypeId: ids.Employment,
+          name: 'EmploymentWhereThrough',
+          singular: 'Employment',
+          isOne: true,
+        },
+        roleType: {
+          id: '8832fe15cc9242eab15cdffb6e228193',
+          objectTypeId: ids.DateTime,
+          name: 'Through',
+          singular: 'Through',
+          isUnit: true,
+          isOne: true,
+          isRequired: false,
+        },
+        concreteRoleTypes: 
+          [
+          ],
+        isDerived: false,
+      },
+      {
         id: '2cc74901cda54185bcd8d51c745a8437',
         associationType: {
           id: '896a45894caf4cd28365c4200b12f519',
@@ -418,15 +520,15 @@ export const data: Data = {
         associationType: {
           id: '708d8f202cb94a39a476e8920afac6f7',
           objectTypeId: ids.Organisation,
-          name: 'OrganisationsWhereEmployee',
+          name: 'OrganisationWhereCurrentEmployee',
           singular: 'Organisation',
-          isOne: false,
+          isOne: true,
         },
         roleType: {
           id: '5efc6b5f285049e8814ae29ae567e69b',
           objectTypeId: ids.Person,
-          name: 'Employees',
-          singular: 'Employee',
+          name: 'CurrentEmployees',
+          singular: 'CurrentEmployee',
           isUnit: false,
           isOne: false,
           isRequired: false,
@@ -434,7 +536,30 @@ export const data: Data = {
         concreteRoleTypes: 
           [
           ],
-        isDerived: false,
+        isDerived: true,
+      },
+      {
+        id: 'a56b4d5290cb4a21b7c158f0f7132d13',
+        associationType: {
+          id: 'e2200a6cb5614579a6a9824fe079a973',
+          objectTypeId: ids.Organisation,
+          name: 'OrganisationsWhereFormerEmployee',
+          singular: 'Organisation',
+          isOne: false,
+        },
+        roleType: {
+          id: '8813de45d7794e82816ec86cfc617cee',
+          objectTypeId: ids.Person,
+          name: 'FormerEmployees',
+          singular: 'FormerEmployee',
+          isUnit: false,
+          isOne: false,
+          isRequired: false,
+        },
+        concreteRoleTypes: 
+          [
+          ],
+        isDerived: true,
       },
       {
         id: 'f92c5c86c32a41e099ff2d94a8d6ccfa',

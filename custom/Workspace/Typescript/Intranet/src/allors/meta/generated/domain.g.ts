@@ -14,6 +14,7 @@ export interface Meta extends MetaPopulation {
    Task: MetaTask;
    User: MetaUser;
    WorkItem: MetaWorkItem;
+   Employment: MetaEmployment;
    Organisation: MetaOrganisation;
    Person: MetaPerson;
    Settings: MetaSettings;
@@ -98,10 +99,20 @@ export interface MetaWorkItem extends ObjectType {
    TasksWhereWorkItem: AssociationType;
 }
 
+export interface MetaEmployment extends ObjectType {
+   Employer: RoleType;
+   Employee: RoleType;
+   From: RoleType;
+   Through: RoleType;
+   Delete: MethodType;
+}
+
 export interface MetaOrganisation extends ObjectType {
    Name: RoleType;
-   Employees: RoleType;
+   CurrentEmployees: RoleType;
+   FormerEmployees: RoleType;
    Locale: RoleType;
+   EmploymentsWhereEmployer: AssociationType;
    Delete: MethodType;
 }
 
@@ -117,7 +128,9 @@ export interface MetaPerson extends ObjectType {
    TaskList: RoleType;
    NotificationList: RoleType;
    UniqueId: RoleType;
-   OrganisationsWhereEmployee: AssociationType;
+   EmploymentsWhereEmployee: AssociationType;
+   OrganisationWhereCurrentEmployee: AssociationType;
+   OrganisationsWhereFormerEmployee: AssociationType;
    TasksWhereParticipant: AssociationType;
    TasksWherePerformer: AssociationType;
    SingletonWhereGuest: AssociationType;

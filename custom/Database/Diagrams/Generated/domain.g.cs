@@ -117,11 +117,24 @@ namespace Allors.Domain
 						global::System.String WorkItemDescription {set;}
 
 		}
+		public interface Employment  : AccessControlledObject, Deletable 
+		{
+						Organisation Employer {set;}
+
+						Person Employee {set;}
+
+						global::System.DateTime From {set;}
+
+						global::System.DateTime? Through {set;}
+
+		}
 		public interface Organisation  : AccessControlledObject, Localised, Deletable 
 		{
 						global::System.String Name {set;}
 
-						Person Employees {set;}
+						Person CurrentEmployees {set;}
+
+						Person FormerEmployees {set;}
 
 		}
 		public interface Person  : Deletable, User, UniquelyIdentifiable 

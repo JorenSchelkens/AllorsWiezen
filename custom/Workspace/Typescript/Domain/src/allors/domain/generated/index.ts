@@ -11,6 +11,7 @@ export { Task } from './Task.g';
 export { User } from './User.g';
 export { WorkItem } from './WorkItem.g';
 
+export { Employment } from './Employment.g';
 export { Organisation } from './Organisation.g';
 export { Person } from './Person.g';
 export { Settings } from './Settings.g';

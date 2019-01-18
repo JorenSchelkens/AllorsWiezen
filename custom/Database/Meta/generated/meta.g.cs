@@ -22,6 +22,7 @@ namespace Allors.Meta
         public static readonly MetaWorkItem WorkItem;
 
 		// Classes
+        public static readonly MetaEmployment Employment;
         public static readonly MetaOrganisation Organisation;
         public static readonly MetaPerson Person;
         public static readonly MetaSettings Settings;
@@ -74,6 +75,7 @@ namespace Allors.Meta
             WorkItem = MetaWorkItem.Instance;
 
 		    // Classes
+            Employment = MetaEmployment.Instance;
             Organisation = MetaOrganisation.Instance;
             Person = MetaPerson.Instance;
             Settings = MetaSettings.Instance;
