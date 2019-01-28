@@ -308,6 +308,7 @@ namespace Allors.Meta
 		// Defined Associations
         public AssociationType PersonWherePicture;
         public AssociationType SingletonsWhereLogoImage;
+        public AssociationType PrintDocumentWhereMedia;
         public AssociationType TemplateWhereMedia;
 
 		// Inherited Associations
@@ -361,6 +362,46 @@ namespace Allors.Meta
 			{
 				SingularName = "MediaContent",
 				PluralName = "MediaContents",
+			};
+        }
+
+	}
+
+    public partial class MetaPrintDocument : MetaClass
+	{
+	    public static MetaPrintDocument Instance { get; internal set;}
+
+		public override Class Class { get; }
+
+		// Defined Methods
+
+		// Inherited Methods
+        public MethodType OnBuild;
+        public MethodType OnPostBuild;
+        public MethodType OnPreDerive;
+        public MethodType OnDerive;
+        public MethodType OnPostDerive;
+        public MethodType Delete;
+
+		// Defined Roles
+        public RoleType Media;
+
+		// Inherited Roles
+        public ConcreteRoleType DeniedPermissions;
+        public ConcreteRoleType SecurityTokens;
+
+		// Defined Associations
+        public AssociationType PrintableWherePrintDocument;
+
+		// Inherited Associations
+
+
+		internal MetaPrintDocument(MetaPopulation metaPopulation)
+        {
+			this.Class = new Class(metaPopulation, new System.Guid("6161594B-8ACF-4DFA-AE6D-A9BC96040714"))
+			{
+				SingularName = "PrintDocument",
+				PluralName = "PrintDocuments",
 			};
         }
 

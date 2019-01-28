@@ -209,6 +209,35 @@ namespace Allors.Meta
         }
 	}
 
+    public partial class MetaPrintable : MetaInterface
+	{
+	    public static MetaPrintable Instance { get; internal set;}
+
+		public override Interface Interface { get; }
+
+		// Defined Methods
+        public MethodType Print;
+
+		// Inherited Methods
+
+		// Defined Roles
+        public RoleType PrintDocument;
+
+		// Inherited Roles
+
+		// Defined Associations
+
+		// Inherited Associations
+
+		internal MetaPrintable(MetaPopulation metaPopulation)
+        {
+			this.Interface = new Interface(metaPopulation, new System.Guid("61207a42-3199-4249-baa4-9dd11dc0f5b1"))
+			{
+				SingularName = "Printable",
+			};
+        }
+	}
+
     public partial class MetaLocalised : MetaInterface
 	{
 	    public static MetaLocalised Instance { get; internal set;}

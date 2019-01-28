@@ -47,6 +47,7 @@ namespace Allors.Meta
             MetaUniquelyIdentifiable.Instance = new MetaUniquelyIdentifiable(this.metaPopulation);
             MetaVersion.Instance = new MetaVersion(this.metaPopulation);
             MetaVersioned.Instance = new MetaVersioned(this.metaPopulation);
+            MetaPrintable.Instance = new MetaPrintable(this.metaPopulation);
             MetaLocalised.Instance = new MetaLocalised(this.metaPopulation);
             MetaAccessControlledObject.Instance = new MetaAccessControlledObject(this.metaPopulation);
             MetaDelegatedAccessControlledObject.Instance = new MetaDelegatedAccessControlledObject(this.metaPopulation);
@@ -69,6 +70,7 @@ namespace Allors.Meta
             MetaCounter.Instance = new MetaCounter(this.metaPopulation);
             MetaMedia.Instance = new MetaMedia(this.metaPopulation);
             MetaMediaContent.Instance = new MetaMediaContent(this.metaPopulation);
+            MetaPrintDocument.Instance = new MetaPrintDocument(this.metaPopulation);
             MetaTemplate.Instance = new MetaTemplate(this.metaPopulation);
             MetaTemplateType.Instance = new MetaTemplateType(this.metaPopulation);
             MetaPreparedExtent.Instance = new MetaPreparedExtent(this.metaPopulation);
@@ -110,6 +112,8 @@ namespace Allors.Meta
             new Inheritance(this.metaPopulation){ Subtype = (Composite)MetaMedia.Instance.ObjectType, Supertype = MetaDeletable.Instance.Interface};
             new Inheritance(this.metaPopulation){ Subtype = (Composite)MetaMediaContent.Instance.ObjectType, Supertype = MetaAccessControlledObject.Instance.Interface};
             new Inheritance(this.metaPopulation){ Subtype = (Composite)MetaMediaContent.Instance.ObjectType, Supertype = MetaDeletable.Instance.Interface};
+            new Inheritance(this.metaPopulation){ Subtype = (Composite)MetaPrintDocument.Instance.ObjectType, Supertype = MetaAccessControlledObject.Instance.Interface};
+            new Inheritance(this.metaPopulation){ Subtype = (Composite)MetaPrintDocument.Instance.ObjectType, Supertype = MetaDeletable.Instance.Interface};
             new Inheritance(this.metaPopulation){ Subtype = (Composite)MetaTemplate.Instance.ObjectType, Supertype = MetaUniquelyIdentifiable.Instance.Interface};
             new Inheritance(this.metaPopulation){ Subtype = (Composite)MetaTemplate.Instance.ObjectType, Supertype = MetaAccessControlledObject.Instance.Interface};
             new Inheritance(this.metaPopulation){ Subtype = (Composite)MetaTemplate.Instance.ObjectType, Supertype = MetaDeletable.Instance.Interface};
@@ -153,6 +157,7 @@ namespace Allors.Meta
             new Inheritance(this.metaPopulation){ Subtype = (Composite)MetaUniquelyIdentifiable.Instance.ObjectType, Supertype = MetaObject.Instance.Interface};
             new Inheritance(this.metaPopulation){ Subtype = (Composite)MetaVersion.Instance.ObjectType, Supertype = MetaAccessControlledObject.Instance.Interface};
             new Inheritance(this.metaPopulation){ Subtype = (Composite)MetaVersioned.Instance.ObjectType, Supertype = MetaObject.Instance.Interface};
+            new Inheritance(this.metaPopulation){ Subtype = (Composite)MetaPrintable.Instance.ObjectType, Supertype = MetaObject.Instance.Interface};
             new Inheritance(this.metaPopulation){ Subtype = (Composite)MetaLocalised.Instance.ObjectType, Supertype = MetaObject.Instance.Interface};
             new Inheritance(this.metaPopulation){ Subtype = (Composite)MetaAccessControlledObject.Instance.ObjectType, Supertype = MetaObject.Instance.Interface};
             new Inheritance(this.metaPopulation){ Subtype = (Composite)MetaDelegatedAccessControlledObject.Instance.ObjectType, Supertype = MetaAccessControlledObject.Instance.Interface};
@@ -178,6 +183,7 @@ namespace Allors.Meta
 			BuildRolesCounter();
 			BuildRolesMedia();
 			BuildRolesMediaContent();
+			BuildRolesPrintDocument();
 			BuildRolesTemplate();
 			BuildRolesTemplateType();
 			BuildRolesPreparedExtent();
@@ -206,6 +212,7 @@ namespace Allors.Meta
 			BuildRolesUniquelyIdentifiable();
 			BuildRolesVersion();
 			BuildRolesVersioned();
+			BuildRolesPrintable();
 			BuildRolesLocalised();
 			BuildRolesAccessControlledObject();
 			BuildRolesDelegatedAccessControlledObject();
@@ -607,6 +614,22 @@ namespace Allors.Meta
 		relationType.RoleType.IsRequired = true;
 		relationType.RoleType.Size = -1;
 		MetaMediaContent.Instance.Data = relationType.RoleType; 
+	}
+	}
+
+
+	private void BuildRolesPrintDocument() {
+
+	{
+		var relationType = new RelationType(this.metaPopulation, new System.Guid("4C5C2727-908C-4FB2-9EB5-DA31837422FC"), new System.Guid("0E33FC4F-B3D8-4EA8-AD03-E477FA1AD1E8"), new System.Guid("6FEA8BBD-9D58-4CE7-B5BA-B9235FA9194C"));
+		relationType.AssociationType.ObjectType = MetaPrintDocument.Instance;
+		relationType.Workspace = true;
+		relationType.AssignedMultiplicity = Allors.Multiplicity.OneToOne;
+		relationType.IsIndexed = true;
+		relationType.RoleType.ObjectType = MetaMedia.Instance;
+		relationType.RoleType.SingularName = "Media";
+		relationType.RoleType.PluralName = "Medias";
+		MetaPrintDocument.Instance.Media = relationType.RoleType; 
 	}
 	}
 
@@ -1478,6 +1501,22 @@ namespace Allors.Meta
 	}
 
 
+	private void BuildRolesPrintable() {
+
+	{
+		var relationType = new RelationType(this.metaPopulation, new System.Guid("079C31BA-0D20-4CD7-921C-A1829E226970"), new System.Guid("C98431FE-98EA-44EB-97C4-8D5F2C147424"), new System.Guid("B3ECE72C-D62C-4F24-805A-34D7FF21DE4F"));
+		relationType.AssociationType.ObjectType = MetaPrintable.Instance;
+		relationType.Workspace = true;
+		relationType.AssignedMultiplicity = Allors.Multiplicity.OneToOne;
+		relationType.IsIndexed = true;
+		relationType.RoleType.ObjectType = MetaPrintDocument.Instance;
+		relationType.RoleType.SingularName = "PrintDocument";
+		relationType.RoleType.PluralName = "PrintDocuments";
+		MetaPrintable.Instance.PrintDocument = relationType.RoleType; 
+	}
+	}
+
+
 	private void BuildRolesLocalised() {
 
 	{
@@ -1819,6 +1858,7 @@ namespace Allors.Meta
 
 
 
+
             MetaDelegatedAccessControlledObject.Instance.DeniedPermissions = MetaAccessControlledObject.Instance.DeniedPermissions;
             MetaDelegatedAccessControlledObject.Instance.SecurityTokens = MetaAccessControlledObject.Instance.SecurityTokens;
 
@@ -1865,6 +1905,8 @@ namespace Allors.Meta
             MetaMedia.Instance.SecurityTokens = MetaMedia.Instance.Class.ConcreteRoleTypeByRoleType[MetaAccessControlledObject.Instance.SecurityTokens];
             MetaMediaContent.Instance.DeniedPermissions = MetaMediaContent.Instance.Class.ConcreteRoleTypeByRoleType[MetaAccessControlledObject.Instance.DeniedPermissions];
             MetaMediaContent.Instance.SecurityTokens = MetaMediaContent.Instance.Class.ConcreteRoleTypeByRoleType[MetaAccessControlledObject.Instance.SecurityTokens];
+            MetaPrintDocument.Instance.DeniedPermissions = MetaPrintDocument.Instance.Class.ConcreteRoleTypeByRoleType[MetaAccessControlledObject.Instance.DeniedPermissions];
+            MetaPrintDocument.Instance.SecurityTokens = MetaPrintDocument.Instance.Class.ConcreteRoleTypeByRoleType[MetaAccessControlledObject.Instance.SecurityTokens];
             MetaTemplate.Instance.UniqueId = MetaTemplate.Instance.Class.ConcreteRoleTypeByRoleType[MetaUniquelyIdentifiable.Instance.UniqueId];
             MetaTemplate.Instance.DeniedPermissions = MetaTemplate.Instance.Class.ConcreteRoleTypeByRoleType[MetaAccessControlledObject.Instance.DeniedPermissions];
             MetaTemplate.Instance.SecurityTokens = MetaTemplate.Instance.Class.ConcreteRoleTypeByRoleType[MetaAccessControlledObject.Instance.SecurityTokens];
@@ -1938,8 +1980,10 @@ namespace Allors.Meta
             MetaCounter.Instance.SettingsWhereCounter = MetaSettings.Instance.Counter.AssociationType;
             MetaMedia.Instance.PersonWherePicture = MetaPerson.Instance.Picture.AssociationType;
             MetaMedia.Instance.SingletonsWhereLogoImage = MetaSingleton.Instance.LogoImage.AssociationType;
+            MetaMedia.Instance.PrintDocumentWhereMedia = MetaPrintDocument.Instance.Media.AssociationType;
             MetaMedia.Instance.TemplateWhereMedia = MetaTemplate.Instance.Media.AssociationType;
             MetaMediaContent.Instance.MediaWhereMediaContent = MetaMedia.Instance.MediaContent.AssociationType;
+            MetaPrintDocument.Instance.PrintableWherePrintDocument = MetaPrintable.Instance.PrintDocument.AssociationType;
 
             MetaTemplateType.Instance.TemplatesWhereTemplateType = MetaTemplate.Instance.TemplateType.AssociationType;
 
@@ -1991,6 +2035,7 @@ namespace Allors.Meta
 
 
 
+
             MetaObjectState.Instance.TransitionalsWherePreviousObjectState = MetaTransitional.Instance.PreviousObjectStates.AssociationType;
             MetaObjectState.Instance.TransitionalsWhereLastObjectState = MetaTransitional.Instance.LastObjectStates.AssociationType;
             MetaObjectState.Instance.TransitionalsWhereObjectState = MetaTransitional.Instance.ObjectStates.AssociationType;
@@ -2027,6 +2072,7 @@ namespace Allors.Meta
             MetaCounter.Instance.NotificationsWhereTarget = MetaNotification.Instance.Target.AssociationType;
             MetaMedia.Instance.NotificationsWhereTarget = MetaNotification.Instance.Target.AssociationType;
 
+
             MetaTemplate.Instance.NotificationsWhereTarget = MetaNotification.Instance.Target.AssociationType;
             MetaTemplateType.Instance.NotificationsWhereTarget = MetaNotification.Instance.Target.AssociationType;
             MetaPreparedExtent.Instance.NotificationsWhereTarget = MetaNotification.Instance.Target.AssociationType;
@@ -2059,6 +2105,7 @@ namespace Allors.Meta
 
 
             MetaEnumeration.Instance.NotificationsWhereTarget = MetaNotification.Instance.Target.AssociationType;
+
 
 
 
@@ -2118,6 +2165,12 @@ namespace Allors.Meta
 
 
 
+			{
+				var method = new MethodType(this.metaPopulation, new System.Guid("55903F87-8D6B-4D99-9E0D-C3B74064C81F"));
+				method.ObjectType = MetaPrintable.Instance;
+				method.Name = "Print";
+				MetaPrintable.Instance.Print = method; 
+			}
 
 
 			{
@@ -2182,6 +2235,12 @@ namespace Allors.Meta
 				MetaMediaContent.Instance.OnDerive = MetaObject.Instance.OnDerive;
 				MetaMediaContent.Instance.OnPostDerive = MetaObject.Instance.OnPostDerive;
 				MetaMediaContent.Instance.Delete = MetaDeletable.Instance.Delete;
+				MetaPrintDocument.Instance.OnBuild = MetaObject.Instance.OnBuild;
+				MetaPrintDocument.Instance.OnPostBuild = MetaObject.Instance.OnPostBuild;
+				MetaPrintDocument.Instance.OnPreDerive = MetaObject.Instance.OnPreDerive;
+				MetaPrintDocument.Instance.OnDerive = MetaObject.Instance.OnDerive;
+				MetaPrintDocument.Instance.OnPostDerive = MetaObject.Instance.OnPostDerive;
+				MetaPrintDocument.Instance.Delete = MetaDeletable.Instance.Delete;
 				MetaTemplate.Instance.OnBuild = MetaObject.Instance.OnBuild;
 				MetaTemplate.Instance.OnPostBuild = MetaObject.Instance.OnPostBuild;
 				MetaTemplate.Instance.OnPreDerive = MetaObject.Instance.OnPreDerive;
@@ -2316,6 +2375,7 @@ namespace Allors.Meta
 
 
 
+
 		}
 
 		internal void ExtendInterfaces()
@@ -2327,6 +2387,7 @@ namespace Allors.Meta
             MetaUniquelyIdentifiable.Instance.Extend();
             MetaVersion.Instance.Extend();
             MetaVersioned.Instance.Extend();
+            MetaPrintable.Instance.Extend();
             MetaLocalised.Instance.Extend();
             MetaAccessControlledObject.Instance.Extend();
             MetaDelegatedAccessControlledObject.Instance.Extend();
@@ -2349,6 +2410,7 @@ namespace Allors.Meta
             MetaCounter.Instance.Extend();
             MetaMedia.Instance.Extend();
             MetaMediaContent.Instance.Extend();
+            MetaPrintDocument.Instance.Extend();
             MetaTemplate.Instance.Extend();
             MetaTemplateType.Instance.Extend();
             MetaPreparedExtent.Instance.Extend();

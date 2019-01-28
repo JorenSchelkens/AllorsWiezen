@@ -10,6 +10,7 @@ namespace Allors.Meta
         public static readonly MetaUniquelyIdentifiable UniquelyIdentifiable;
         public static readonly MetaVersion Version;
         public static readonly MetaVersioned Versioned;
+        public static readonly MetaPrintable Printable;
         public static readonly MetaLocalised Localised;
         public static readonly MetaAccessControlledObject AccessControlledObject;
         public static readonly MetaDelegatedAccessControlledObject DelegatedAccessControlledObject;
@@ -30,6 +31,7 @@ namespace Allors.Meta
         public static readonly MetaCounter Counter;
         public static readonly MetaMedia Media;
         public static readonly MetaMediaContent MediaContent;
+        public static readonly MetaPrintDocument PrintDocument;
         public static readonly MetaTemplate Template;
         public static readonly MetaTemplateType TemplateType;
         public static readonly MetaPreparedExtent PreparedExtent;
@@ -63,6 +65,7 @@ namespace Allors.Meta
             UniquelyIdentifiable = MetaUniquelyIdentifiable.Instance;
             Version = MetaVersion.Instance;
             Versioned = MetaVersioned.Instance;
+            Printable = MetaPrintable.Instance;
             Localised = MetaLocalised.Instance;
             AccessControlledObject = MetaAccessControlledObject.Instance;
             DelegatedAccessControlledObject = MetaDelegatedAccessControlledObject.Instance;
@@ -83,6 +86,7 @@ namespace Allors.Meta
             Counter = MetaCounter.Instance;
             Media = MetaMedia.Instance;
             MediaContent = MetaMediaContent.Instance;
+            PrintDocument = MetaPrintDocument.Instance;
             Template = MetaTemplate.Instance;
             TemplateType = MetaTemplateType.Instance;
             PreparedExtent = MetaPreparedExtent.Instance;
