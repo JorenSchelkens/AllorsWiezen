@@ -3,25 +3,26 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "Intranet": {
-      "root": "",
-      "sourceRoot": "src",
+    "intranet": {
       "projectType": "application",
-      "prefix": "app",
       "schematics": {
         "@schematics/angular:component": {
-          "styleext": "scss"
+          "style": "scss"
         }
       },
+      "root": "",
+      "sourceRoot": "src",
+      "prefix": "app",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/Intranet",
+            "outputPath": "dist/intranet",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
-            "tsConfig": "src/tsconfig.app.json",
+            "tsConfig": "tsconfig.app.json",
+            "aot": true,
             "preserveSymlinks": true,
             "assets": [
               "src/favicon.ico",
@@ -63,18 +64,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "Intranet:build"
+            "browserTarget": "intranet:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "Intranet:build:production"
+              "browserTarget": "intranet:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "Intranet:build"
+            "browserTarget": "intranet:build"
           }
         },
         "test": {
@@ -82,25 +83,26 @@
           "options": {
             "main": "src/test.ts",
             "polyfills": "src/polyfills.ts",
-            "tsConfig": "src/tsconfig.spec.json",
-            "karmaConfig": "src/karma.conf.js",
+            "tsConfig": "tsconfig.spec.json",
+            "preserveSymlinks": true,
+            "karmaConfig": "karma.conf.js",
+            "assets": [
+              "src/favicon.ico",
+              "src/assets"
+            ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.scss"
             ],
-            "scripts": [],
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ]
+            "scripts": []
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "src/tsconfig.app.json",
-              "src/tsconfig.spec.json"
+              "tsconfig.app.json",
+              "tsconfig.spec.json",
             ],
             "exclude": [
               "**/node_modules/**"
@@ -110,5 +112,5 @@
       }
     }
   },
-  "defaultProject": "Intranet"
+  "defaultProject": "intranet"
 }

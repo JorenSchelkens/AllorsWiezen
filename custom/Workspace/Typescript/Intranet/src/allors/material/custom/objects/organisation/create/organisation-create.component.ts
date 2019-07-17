@@ -4,16 +4,15 @@ import { ActivatedRoute } from '@angular/router';
 
 import { BehaviorSubject, Subscription, combineLatest } from 'rxjs';
 
-import { ErrorService, Saved, ContextService, MetaService } from '../../../../../angular';
+import { Saved, ContextService, MetaService } from '../../../../../angular';
 import { Locale, Organisation } from '../../../../../domain';
 import { PullRequest } from '../../../../../framework';
 import { Meta } from '../../../../../meta';
 import { StateService } from '../../../services/state';
 import { Fetcher } from '../../Fetcher';
-import { AllorsMaterialDialogService } from '../../../../base/services/dialog';
 import { switchMap } from 'rxjs/operators';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { ObjectData, CreateData } from 'src/allors/material/base/services/object';
+import { SaveService, ObjectData } from '../../../../../material';
 
 @Component({
   templateUrl: './organisation-create.component.html',
@@ -35,11 +34,11 @@ export class OrganisationCreateComponent implements OnInit, OnDestroy {
 
   constructor(
     @Self() private allors: ContextService,
-    @Inject(MAT_DIALOG_DATA) public data: CreateData,
+    @Inject(MAT_DIALOG_DATA) public data: ObjectData,
     public dialogRef: MatDialogRef<OrganisationCreateComponent>,
     public metaService: MetaService,
     public location: Location,
-    private errorService: ErrorService,
+    private saveService: SaveService,
     private route: ActivatedRoute,
     private stateService: StateService) {
 
@@ -65,7 +64,7 @@ export class OrganisationCreateComponent implements OnInit, OnDestroy {
       .subscribe((loaded) => {
         this.locales = loaded.collections.AdditionalLocales as Locale[];
         this.organisation = this.allors.context.create('Organisation') as Organisation;
-      }, this.errorService.handler);
+      });
   }
 
   public ngOnDestroy(): void {
@@ -89,8 +88,6 @@ export class OrganisationCreateComponent implements OnInit, OnDestroy {
 
         this.dialogRef.close(data);
       },
-        (error: Error) => {
-          this.errorService.handle(error);
-        });
+      this.saveService.errorHandler);
   }
 }

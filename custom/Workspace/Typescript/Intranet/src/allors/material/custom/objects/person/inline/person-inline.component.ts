@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit, Output, Self, OnDestroy } from '@angular/core';
 
-import { ErrorService, Saved, ContextService, MetaService } from '../../../../../angular';
+import {  Saved, ContextService, MetaService } from '../../../../../angular';
 import { Enumeration, Locale, Person } from '../../../../../domain';
 import { PullRequest, Sort, Equals } from '../../../../../framework';
 import { Meta } from '../../../../../meta';
@@ -28,24 +28,14 @@ export class PersonInlineComponent implements OnInit, OnDestroy {
 
   constructor(
     private allors: ContextService,
-    public metaService: MetaService,
-    private errorService: ErrorService) {
+    public metaService: MetaService) {
 
     this.m = this.metaService.m;
   }
 
   public ngOnInit(): void {
 
-    const { pull, x } = this.metaService;
-
-    const pulls = [
-    ];
-
-    this.allors.context
-      .load('Pull', new PullRequest({ pulls }))
-      .subscribe((loaded) => {
-        this.person = this.allors.context.create('Person') as Person;
-      }, this.errorService.handler);
+    this.person = this.allors.context.create('Person') as Person;
   }
 
   public ngOnDestroy(): void {

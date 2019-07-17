@@ -2,15 +2,16 @@ import { Component, OnDestroy, OnInit, Self } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 
-import { BehaviorSubject, Subscription, combineLatest } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
+import { switchMap, filter } from 'rxjs/operators';
 
-import { ErrorService, ContextService, MetaService, PanelService } from '../../../../../../angular';
+import { ContextService, MetaService, PanelService } from '../../../../../../angular';
 import { Locale, Organisation } from '../../../../../../domain';
 import { PullRequest, Sort } from '../../../../../../framework';
 import { Meta } from '../../../../../../meta';
 import { StateService } from '../../../../services/state';
 import { Fetcher } from '../../../Fetcher';
-import { switchMap, filter } from 'rxjs/operators';
+import { SaveService } from '../../../../../../material';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -33,8 +34,8 @@ export class OrganisationOverviewDetailComponent implements OnInit, OnDestroy {
     @Self() private allors: ContextService,
     @Self() public panel: PanelService,
     public metaService: MetaService,
+    public saveService: SaveService,
     public location: Location,
-    private errorService: ErrorService,
     private route: ActivatedRoute,
     private stateService: StateService) {
 
@@ -98,7 +99,7 @@ export class OrganisationOverviewDetailComponent implements OnInit, OnDestroy {
 
         this.organisation = loaded.objects.Organisation as Organisation;
         this.locales = loaded.collections.AdditionalLocales as Locale[];
-      }, this.errorService.handler);
+      });
   }
 
   public ngOnDestroy(): void {
@@ -112,14 +113,9 @@ export class OrganisationOverviewDetailComponent implements OnInit, OnDestroy {
     this.allors.context
       .save()
       .subscribe(() => {
-        this.goBack();
+        window.history.back();
       },
-        (error: Error) => {
-          this.errorService.handle(error);
-        });
-  }
-
-  public goBack(): void {
-    window.history.back();
+        this.saveService.errorHandler
+      );
   }
 }

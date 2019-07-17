@@ -1,14 +1,12 @@
 import { Component, OnDestroy, OnInit, Self } from '@angular/core';
-import { Location } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { switchMap, filter } from 'rxjs/operators';
 
-import { ErrorService, ContextService, NavigationService, PanelService, RefreshService, MetaService } from '../../../../../../angular';
-import { Locale, Person } from '../../../../../../domain';
-import { PullRequest } from '../../../../../../framework';
+import { ContextService, NavigationService, PanelService, RefreshService, MetaService, TestScope } from '../../../../../../angular';
+import { Enumeration, Locale, Organisation, Person, Currency } from '../../../../../../domain';
+import { Equals, PullRequest, Sort } from '../../../../../../framework';
 import { Meta } from '../../../../../../meta';
-import { StateService } from '../../../../services/state';
-import { Fetcher } from '../../../Fetcher';
+import { SaveService } from '../../../../../../../allors/material';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -16,12 +14,11 @@ import { Fetcher } from '../../../Fetcher';
   templateUrl: './person-overview-detail.component.html',
   providers: [PanelService, ContextService]
 })
-export class PersonOverviewDetailComponent implements OnInit, OnDestroy {
+export class PersonOverviewDetailComponent extends TestScope implements OnInit, OnDestroy {
 
   readonly m: Meta;
 
   person: Person;
-  locales: Locale[];
 
   private subscription: Subscription;
 
@@ -31,9 +28,9 @@ export class PersonOverviewDetailComponent implements OnInit, OnDestroy {
     private metaService: MetaService,
     public refreshService: RefreshService,
     public navigationService: NavigationService,
-    public location: Location,
-    private errorService: ErrorService,
-    private stateService: StateService) {
+    private saveService: SaveService,
+  ) {
+    super();
 
     this.m = this.metaService.m;
 
@@ -42,7 +39,7 @@ export class PersonOverviewDetailComponent implements OnInit, OnDestroy {
     panel.icon = 'person';
     panel.expandable = true;
 
-    // Collapsed
+    // Minimized
     const pullName = `${this.panel.name}_${this.m.Person.name}`;
 
     panel.onPull = (pulls) => {
@@ -73,7 +70,7 @@ export class PersonOverviewDetailComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
 
-    // Expanded
+    // Maximized
     this.subscription = this.panel.manager.on$
       .pipe(
         filter(() => {
@@ -84,11 +81,9 @@ export class PersonOverviewDetailComponent implements OnInit, OnDestroy {
           this.person = undefined;
 
           const { m, pull, x } = this.metaService;
-          const fetcher = new Fetcher(this.stateService, this.metaService.pull);
           const id = this.panel.manager.id;
 
           const pulls = [
-            fetcher.locales,
             pull.Person({
               object: id,
               include: {
@@ -104,8 +99,7 @@ export class PersonOverviewDetailComponent implements OnInit, OnDestroy {
         this.allors.context.reset();
 
         this.person = loaded.objects.Person as Person;
-        this.locales = loaded.collections.AdditionalLocales as Locale[];
-      }, this.errorService.handler);
+      });
 
   }
 
@@ -119,10 +113,9 @@ export class PersonOverviewDetailComponent implements OnInit, OnDestroy {
 
     this.allors.context.save()
       .subscribe(() => {
-        this.location.back();
+        this.panel.toggle();
       },
-        (error: Error) => {
-          this.errorService.handle(error);
-        });
+        this.saveService.errorHandler
+      );
   }
 }

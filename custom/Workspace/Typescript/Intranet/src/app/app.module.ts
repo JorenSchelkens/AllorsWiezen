@@ -9,8 +9,12 @@ import { DashboardModule } from './dashboard/dashboard.module';
 import { MainModule } from './main/main.module';
 
 import { AppDialogModule } from './app-dialogs.module';
-import { WorkspaceService } from 'src/allors/angular';
+import { WorkspaceService } from '../allors/angular';
 import { appMeta } from './app.meta';
+
+export function appInitFactory(workspaceService: WorkspaceService) {
+  return () => (appMeta(workspaceService.metaPopulation));
+}
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -30,9 +34,7 @@ import { appMeta } from './app.meta';
   providers: [
     {
       provide: APP_INITIALIZER,
-      useFactory: (workspaceService: WorkspaceService) => () => {
-        appMeta(workspaceService);
-      },
+      useFactory: appInitFactory,
       deps: [WorkspaceService],
       multi: true
     },

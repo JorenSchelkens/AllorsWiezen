@@ -4,12 +4,11 @@
     <div mat-card-avatar>
       <mat-icon style="font-size: 36px">business</mat-icon>
     </div>
-    <mat-card-title>{{organisation.Name}}</mat-card-title>
+    <mat-card-title>{{organisation.displayName}}</mat-card-title>
     <mat-card-subtitle>
-       <div>
+      <div>
         {{organisation?.Locale?.Name}}
       </div>
     </mat-card-subtitle>
-
   </mat-card-header>
 </mat-card>

@@ -1,10 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatToolbarModule } from '@angular/material';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 import { AllorsMaterialSideNavToggleModule } from '../../allors/material';
 
 import { DashboardComponent } from './dashboard.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -14,7 +17,10 @@ import { DashboardComponent } from './dashboard.component';
   ],
   imports: [
     CommonModule,
+    MatIconModule,
+    MatCardModule,
     MatToolbarModule,
+    RouterModule,
     AllorsMaterialSideNavToggleModule
   ],
 })

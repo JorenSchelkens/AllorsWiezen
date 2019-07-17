@@ -4,16 +4,15 @@ import { ActivatedRoute } from '@angular/router';
 import { Subscription, combineLatest } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
-import { ErrorService, NavigationService, NavigationActivatedRoute, PanelManagerService, RefreshService, MetaService, ContextService } from '../../../../../angular';
+import {  NavigationService, NavigationActivatedRoute, PanelManagerService, RefreshService, MetaService, ContextService, TestScope } from '../../../../../angular';
 import { Organisation } from '../../../../../domain';
 import { PullRequest } from '../../../../../framework';
-import { StateService } from '../../../services/state';
 
 @Component({
   templateUrl: './organisation-overview.component.html',
   providers: [PanelManagerService, ContextService]
 })
-export class OrganisationOverviewComponent implements AfterViewInit, OnDestroy {
+export class OrganisationOverviewComponent extends TestScope implements AfterViewInit, OnDestroy {
 
   title = 'Organisation';
 
@@ -26,23 +25,22 @@ export class OrganisationOverviewComponent implements AfterViewInit, OnDestroy {
     public metaService: MetaService,
     public refreshService: RefreshService,
     public navigation: NavigationService,
-    private errorService: ErrorService,
     private route: ActivatedRoute,
-    private stateService: StateService,
     public injector: Injector,
     titleService: Title,
   ) {
+    super();
 
     titleService.setTitle(this.title);
   }
 
   public ngAfterViewInit(): void {
 
-    this.subscription = combineLatest(this.route.url, this.route.queryParams, this.refreshService.refresh$, this.stateService.organisationId$)
+    this.subscription = combineLatest(this.route.url, this.route.queryParams, this.refreshService.refresh$)
       .pipe(
-        switchMap(([urlSegments, queryParams, date, internalOrganisationId]) => {
+        switchMap(([urlSegments, queryParams, date]) => {
 
-          const { m, pull } = this.metaService;
+          const { m, pull, x } = this.metaService;
 
           const navRoute = new NavigationActivatedRoute(this.route);
           this.panelManager.objectType = m.Organisation;
@@ -69,7 +67,7 @@ export class OrganisationOverviewComponent implements AfterViewInit, OnDestroy {
         this.panelManager.onPulled(loaded);
 
         this.organisation = loaded.objects.Organisation as Organisation;
-      }, this.errorService.handler);
+      });
   }
 
   public ngOnDestroy(): void {

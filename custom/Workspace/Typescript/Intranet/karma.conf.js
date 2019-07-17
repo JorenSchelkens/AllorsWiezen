@@ -10,23 +10,33 @@ module.exports = function (config) {
       require('karma-chrome-launcher'),
       require('karma-jasmine-html-reporter'),
       require('karma-coverage-istanbul-reporter'),
-      require('karma-teamcity-reporter'),
+      require('karma-trx-reporter'),
       require('@angular-devkit/build-angular/plugins/karma')
     ],
     client: {
       clearContext: false // leave Jasmine Spec Runner output visible in browser
     },
     coverageIstanbulReporter: {
-      dir: require('path').join(__dirname, '../coverage'),
+      dir: require('path').join(__dirname, './coverage/intranet'),
       reports: ['html', 'lcovonly', 'text-summary'],
       fixWebpackSourcePaths: true
     },
-    reporters: ['progress', 'kjhtml', 'teamcity'],
+    reporters: ['progress', 'kjhtml'],
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
     browsers: ['Chrome'],
-    singleRun: false
+    singleRun: false,
+    restartOnFileChange: true,
+    trxReporter: {
+      outputFile: 'dist/AppsWorkspaceTypescriptIntranet.trx',
+      shortTestName: true
+    },
+    client: {
+      jasmine: {
+        timeoutInterval: 60000
+      }
+    }
   });
 };

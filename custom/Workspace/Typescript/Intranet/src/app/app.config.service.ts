@@ -1,11 +1,10 @@
 import { Injectable, Self } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { ContextService, MetaService } from '../allors/angular';
-import { Organisation, Singleton } from '../allors/domain';
-import { PullRequest, Equals } from '../allors/framework';
+import { ContextService, MetaService, SingletonId} from '../allors/angular';
+import { Singleton } from '../allors/domain';
+import { PullRequest } from '../allors/framework';
 import { Loaded } from '../allors/angular';
-import { StateService } from '../allors/material';
 import { tap } from 'rxjs/operators';
 
 @Injectable()
@@ -14,7 +13,7 @@ export class ConfigService {
     constructor(
         @Self() private allors: ContextService,
         public metaService: MetaService,
-        private stateService: StateService
+        private singletonId: SingletonId,
     ) { }
 
     public setup(): Observable<any> {
@@ -30,7 +29,7 @@ export class ConfigService {
             .pipe(
                 tap((loaded: Loaded) => {
                     const singletons = loaded.collections.Singletons as Singleton[];
-                    this.stateService.singletonId = singletons[0].id;
+                    this.singletonId.value = singletons[0].id;
                 })
             );
     }

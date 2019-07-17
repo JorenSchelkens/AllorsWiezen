@@ -5,14 +5,14 @@ import { Location } from '@angular/common';
 import { BehaviorSubject, Subscription, combineLatest } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
-import { ErrorService, Saved, ContextService, NavigationService, MetaService } from '../../../../../angular';
-import { Enumeration, Locale, Organisation, Person, } from '../../../../../domain';
+import { Saved, ContextService, NavigationService, MetaService } from '../../../../../angular';
+import { Person, } from '../../../../../domain';
 import { PullRequest } from '../../../../../framework';
 import { Meta } from '../../../../../meta';
 import { StateService } from '../../../services/state';
 import { Fetcher } from '../../Fetcher';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { ObjectData, CreateData } from 'src/allors/material/base/services/object';
+import { ObjectData, SaveService } from '../../../../../material';
 
 @Component({
   templateUrl: './person-create.component.html',
@@ -32,13 +32,13 @@ export class PersonCreateComponent implements OnInit, OnDestroy {
 
   constructor(
     @Self() public allors: ContextService,
-    @Inject(MAT_DIALOG_DATA) public data: CreateData,
+    @Inject(MAT_DIALOG_DATA) public data: ObjectData,
     public dialogRef: MatDialogRef<PersonCreateComponent>,
     public metaService: MetaService,
     public navigationService: NavigationService,
     public location: Location,
-    private errorService: ErrorService,
     private route: ActivatedRoute,
+    private saveService: SaveService,
     private stateService: StateService) {
 
     this.m = this.metaService.m;
@@ -71,7 +71,7 @@ export class PersonCreateComponent implements OnInit, OnDestroy {
 
         this.person = this.allors.context.create('Person') as Person;
 
-      }, this.errorService.handler);
+      });
   }
 
   public ngOnDestroy(): void {
@@ -91,8 +91,6 @@ export class PersonCreateComponent implements OnInit, OnDestroy {
 
         this.dialogRef.close(data);
       },
-        (error: Error) => {
-          this.errorService.handle(error);
-        });
+        this.saveService.errorHandler);
   }
 }

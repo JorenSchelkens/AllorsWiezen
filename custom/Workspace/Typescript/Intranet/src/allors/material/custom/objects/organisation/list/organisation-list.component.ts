@@ -4,11 +4,11 @@ import { combineLatest, Subscription } from 'rxjs';
 import { switchMap, scan } from 'rxjs/operators';
 import * as moment from 'moment';
 
-import { PullRequest, And, Like, Not, Exists } from '../../../../../framework';
-import { AllorsFilterService, ErrorService, MediaService, ContextService, NavigationService, RefreshService, Action, MetaService } from '../../../../../angular';
-import { TableRow, OverviewService, DeleteService, Table, Sorter } from '../../../..';
+import { PullRequest, And, Like, ContainedIn, Filter } from '../../../../../framework';
+import { AllorsFilterService, MediaService, ContextService, NavigationService, RefreshService, Action, MetaService, SearchFactory, TestScope } from '../../../../../angular';
+import { TableRow, OverviewService, DeleteService, Table, Sorter, MethodService } from '../../../..';
 
-import { Organisation } from '../../../../../domain';
+import { Organisation, Country } from '../../../../../domain';
 
 import { ObjectService } from '../../../../../material/base/services/object';
 
@@ -21,13 +21,14 @@ interface Row extends TableRow {
   templateUrl: './organisation-list.component.html',
   providers: [ContextService, AllorsFilterService]
 })
-export class OrganisationListComponent implements OnInit, OnDestroy {
+export class OrganisationListComponent extends TestScope implements OnInit, OnDestroy {
 
   public title = 'Organisations';
 
   table: Table<Row>;
 
   delete: Action;
+  delete2: Action;
 
   private subscription: Subscription;
 
@@ -39,10 +40,12 @@ export class OrganisationListComponent implements OnInit, OnDestroy {
     public refreshService: RefreshService,
     public overviewService: OverviewService,
     public deleteService: DeleteService,
+    public methodService: MethodService,
     public navigation: NavigationService,
     public mediaService: MediaService,
-    private errorService: ErrorService,
-    titleService: Title) {
+    titleService: Title
+  ) {
+    super();
 
     titleService.setTitle(this.title);
 
@@ -51,6 +54,10 @@ export class OrganisationListComponent implements OnInit, OnDestroy {
       this.table.selection.clear();
     });
 
+    const { m } = this.metaService;
+
+    this.delete2 = methodService.create(allors.context, m.Organisation.Delete, { name: 'Delete (Method)' });
+
     this.table = new Table({
       selection: true,
       columns: [
@@ -58,7 +65,8 @@ export class OrganisationListComponent implements OnInit, OnDestroy {
       ],
       actions: [
         overviewService.overview(),
-        this.delete
+        this.delete,
+        this.delete2,
       ],
       defaultAction: overviewService.overview(),
       pageSize: 50,
@@ -90,7 +98,7 @@ export class OrganisationListComponent implements OnInit, OnDestroy {
             sort,
             (previousRefresh !== refresh || filterFields !== previousFilterFields) ? Object.assign({ pageIndex: 0 }, pageEvent) : pageEvent,
           ];
-        }, []),
+        }, [, , , ,]),
         switchMap(([, filterFields, sort, pageEvent]) => {
 
           const pulls = [
@@ -98,7 +106,7 @@ export class OrganisationListComponent implements OnInit, OnDestroy {
               predicate,
               sort: sorter.create(sort),
               include: {
-                CurrentEmployees: x,
+                CurrentEmployees: x
               },
               arguments: this.filterService.arguments(filterFields),
               skip: pageEvent.pageIndex * pageEvent.pageSize,
@@ -115,10 +123,10 @@ export class OrganisationListComponent implements OnInit, OnDestroy {
         this.table.data = organisations.map((v) => {
           return {
             object: v,
-            name: v.Name,
+            name: v.displayName,
           } as Row;
         });
-      }, this.errorService.handler);
+      });
   }
 
   public ngOnDestroy(): void {
