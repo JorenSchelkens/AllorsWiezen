@@ -1,19 +1,14 @@
 ﻿namespace Allors.Server
 {
-    using System.Data;
     using System.Text;
-
     using Allors.Adapters.Object.SqlClient;
     using Allors.Domain;
     using Allors.Meta;
     using Allors.Services;
-
     using Identity;
     using Identity.Models;
     using Identity.Services;
-
     using JSNLog;
-
     using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Diagnostics;
@@ -26,7 +21,6 @@
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
     using Microsoft.IdentityModel.Tokens;
-
     using Newtonsoft.Json;
 
     public class Startup
@@ -68,8 +62,6 @@
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton(this.Configuration);
-
             // Allors
             services.AddAllors();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
@@ -93,9 +85,9 @@
 
             // Enable Dual Authentication 
             services.AddAuthentication(option =>
-                {
-                    option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                })
+            {
+                option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
                 .AddCookie(cfg => cfg.SlidingExpiration = true)
                 .AddJwtBearer(cfg =>
                 {
@@ -111,13 +103,13 @@
                 });
 
             services.ConfigureApplicationCookie(options =>
+            {
+                options.Events.OnRedirectToLogin = context =>
                 {
-                    options.Events.OnRedirectToLogin = context =>
-                        {
-                            context.Response.StatusCode = 401;
-                            return System.Threading.Tasks.Task.CompletedTask;
-                        };
-                });
+                    context.Response.StatusCode = 401;
+                    return System.Threading.Tasks.Task.CompletedTask;
+                };
+            });
 
             // For IIS Authentication
             // services.AddAuthentication(IISDefaults.AuthenticationScheme);
@@ -126,48 +118,40 @@
             services.AddCors(options =>
             {
                 options.AddPolicy(
-                    "AllowAll",
+                    "AllowAngular",
                     builder =>
                     {
                         builder
-                                .AllowAnyOrigin()
+                                .WithOrigins("http://localhost:4200", "http://localhost:9876", "https://intranet.staging.custom.net", "https://intranet.custom.com")
                                 .AllowAnyHeader()
                                 .AllowAnyMethod()
                                 .AllowCredentials();
                     });
             });
 
+            services.AddResponseCaching();
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.Configure<MvcOptions>(options =>
             {
-                options.Filters.Add(new CorsAuthorizationFilterFactory("AllowAll"));
+                options.Filters.Add(new CorsAuthorizationFilterFactory("AllowAngular"));
             });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            // Allors
             var objectFactory = new Allors.ObjectFactory(MetaPopulation.Instance, typeof(User));
 
             var database = new Database(
                 app.ApplicationServices,
                 new Configuration
-                    {
-                        ObjectFactory = objectFactory,
-                        ConnectionString = this.Configuration.GetConnectionString("DefaultConnection"),
-                        CommandTimeout = 600,
-                        Serializable = new Database(
-                            app.ApplicationServices,
-                            new Configuration
-                                {
-                                    ObjectFactory = objectFactory,
-                                    ConnectionString = this.Configuration.GetConnectionString("DefaultConnection"),
-                                    IsolationLevel = IsolationLevel.Serializable
-                                })
-                    });
+                {
+                    ObjectFactory = objectFactory,
+                    ConnectionString = this.Configuration.GetConnectionString("DefaultConnection"),
+                    CommandTimeout = 600
+                });
 
             app.UseAllors(database);
 
@@ -184,10 +168,9 @@
             var jsnlogConfiguration = new JsnlogConfiguration
             {
                 corsAllowedOriginsRegex = ".*",
-                defaultAjaxUrl = "logging",
-                serverSideMessageFormat = env.IsDevelopment() ? 
-                            "%requestId | %url | %message" :
-                            "%requestId | %url | %userHostAddress | %userAgent | %message",
+                serverSideMessageFormat = env.IsDevelopment() ?
+                    "%requestId | %url | %message" :
+                    "%requestId | %url | %userHostAddress | %userAgent | %message",
             };
 
             app.UseJSNLog(new LoggingAdapter(loggerFactory), jsnlogConfiguration);
@@ -196,7 +179,7 @@
 
             app.UseAuthentication();
 
-            app.UseCors("AllowAll");
+            app.UseCors("AllowAngular");
 
             app.UseExceptionHandler(appBuilder =>
             {
@@ -221,6 +204,8 @@
                     else await next();
                 });
             });
+
+            app.UseResponseCaching();
 
             app.UseMvc(routes =>
             {

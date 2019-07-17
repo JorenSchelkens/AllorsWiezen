@@ -1,13 +1,13 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="..\..\..\allors\Platform\Repository\Attributes\Export\**\*.cs" />
-    <Compile Include="..\..\..\allors\Domains\Core\Repository\Domain\Export\**\*.cs" />
-    <Compile Include="..\..\..\allors\Domains\Base\Repository\Domain\Export\**\*.cs" />
+    <Compile Include="..\..\..\Allors\Platform\Repository\Domain\Export\**\*.cs" />
+    <Compile Include="..\..\..\Allors\Core\Repository\Domain\Export\**\*.cs" />
+    <Compile Include="..\..\..\Allors\Base\Repository\Domain\Export\**\*.cs" />
   </ItemGroup>
 
 </Project>

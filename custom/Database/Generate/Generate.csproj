@@ -6,15 +6,19 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="..\..\..\allors\Domains\Core\Database\Generate\Generation\**\*.cs" />
+    <Content Include="..\..\stylecop.json" Link="stylecop.json" />
+    <None Include="..\..\Settings.StyleCop" Link="Settings.StyleCop" />
   </ItemGroup>
-  
+
+  <ItemGroup>
+    <Compile Include="..\..\..\allors\Core\Database\Generate\Export\**\*.cs" />
+  </ItemGroup>
+
   <ItemGroup>
     <PackageReference Include="StringTemplate4" Version="4.0.8" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\allors\Platform\Database\Framework\Allors.Framework\Allors.Framework.csproj" />
     <ProjectReference Include="..\Meta\Meta.csproj" />
   </ItemGroup>
 

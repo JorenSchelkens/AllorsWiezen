@@ -7,30 +7,41 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="2.3.1" />
-    <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
+    <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="2.3.4" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="2.2.4" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.2.0" />
-    <PackageReference Include="NLog.Extensions.Logging" Version="1.4.0" />
+    <PackageReference Include="NLog.Extensions.Logging" Version="1.5.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\allors\Platform\Database\Adapters\Allors.Adapters.Memory\Allors.Adapters.Memory.csproj" />
-    <ProjectReference Include="..\..\..\allors\Platform\Database\Adapters\Allors.Adapters.Object.SqlClient\Allors.Adapters.Object.SqlClient.csproj" />
-    <ProjectReference Include="..\..\..\allors\Platform\Database\Framework\Allors.Framework\Allors.Framework.csproj" />
+    <ProjectReference Include="..\..\..\Allors\Platform\Adapters\Allors.Adapters.Object.SqlClient\Allors.Adapters.Object.SqlClient.csproj" />
     <ProjectReference Include="..\Domain\Domain.csproj" />
     <ProjectReference Include="..\Meta\Meta.csproj" />
     <ProjectReference Include="..\Resources\Resources.csproj" />
+    <ProjectReference Include="..\Server\Server.csproj" />
     <ProjectReference Include="..\Services\Services.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\..\..\Allors\Base\Database\Commands\Export\**\*.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <None Update="appSettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="population.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="nlog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="..\..\stylecop.json" Link="stylecop.json" />
+    <Content Include="..\..\Settings.StyleCop" Link="Settings.StyleCop" />
   </ItemGroup>
 
 </Project>
