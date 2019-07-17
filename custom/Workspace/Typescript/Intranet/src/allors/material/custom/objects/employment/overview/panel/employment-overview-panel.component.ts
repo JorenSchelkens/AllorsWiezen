@@ -3,7 +3,7 @@ import * as moment from 'moment';
 
 import { RoleType } from '../../../../../../framework';
 import { Meta } from '../../../../../../meta';
-import { PanelService, MetaService, RefreshService, Action, ActionTarget } from '../../../../../../angular';
+import { PanelService, MetaService, RefreshService, Action, ActionTarget, TestScope } from '../../../../../../angular';
 import { DeleteService, TableRow, Table, ObjectService, ObjectData, EditService } from '../../../../..';
 
 import { Employment } from '../../../../../../domain';
@@ -21,7 +21,7 @@ interface Row extends TableRow {
   templateUrl: './employment-overview-panel.component.html',
   providers: [PanelService]
 })
-export class EmployementOverviewPanelComponent implements OnInit {
+export class EmployementOverviewPanelComponent extends TestScope implements OnInit {
   @Input() roleType: RoleType;
 
   @HostBinding('class.expanded-panel') get expandedPanelClass() {
@@ -51,6 +51,7 @@ export class EmployementOverviewPanelComponent implements OnInit {
     public deleteService: DeleteService,
     public editService: EditService
   ) {
+    super();
 
     this.m = this.metaService.m;
   }
@@ -86,7 +87,7 @@ export class EmployementOverviewPanelComponent implements OnInit {
     const pullName = `${this.panel.name}_${this.m.Employment.name}`;
 
     this.panel.onPull = (pulls) => {
-      const { x,  pull } = this.metaService;
+      const { x, pull } = this.metaService;
       const { id } = this.panel.manager;
 
       pulls.push(

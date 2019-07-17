@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit, Output, Self, OnDestroy } from '@angular/core';
 
-import {  Saved, ContextService, MetaService } from '../../../../../angular';
+import { Saved, ContextService, MetaService, TestScope } from '../../../../../angular';
 import { Enumeration, Locale, Person } from '../../../../../domain';
 import { PullRequest, Sort, Equals } from '../../../../../framework';
 import { Meta } from '../../../../../meta';
@@ -10,7 +10,7 @@ import { Meta } from '../../../../../meta';
   selector: 'person-inline',
   templateUrl: './person-inline.component.html'
 })
-export class PersonInlineComponent implements OnInit, OnDestroy {
+export class PersonInlineComponent extends TestScope implements OnInit, OnDestroy {
 
   @Output()
   public saved: EventEmitter<Person> = new EventEmitter<Person>();
@@ -29,6 +29,8 @@ export class PersonInlineComponent implements OnInit, OnDestroy {
   constructor(
     private allors: ContextService,
     public metaService: MetaService) {
+
+    super();
 
     this.m = this.metaService.m;
   }
@@ -49,7 +51,7 @@ export class PersonInlineComponent implements OnInit, OnDestroy {
   }
 
   public save(): void {
-      this.saved.emit(this.person);
-      this.person = undefined;
+    this.saved.emit(this.person);
+    this.person = undefined;
   }
 }

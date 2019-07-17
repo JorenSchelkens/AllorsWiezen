@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 
 import { BehaviorSubject, Subscription, combineLatest } from 'rxjs';
 
-import { Saved, ContextService, MetaService } from '../../../../../angular';
+import { Saved, ContextService, MetaService, TestScope } from '../../../../../angular';
 import { Locale, Organisation } from '../../../../../domain';
 import { PullRequest } from '../../../../../framework';
 import { Meta } from '../../../../../meta';
@@ -18,7 +18,7 @@ import { SaveService, ObjectData } from '../../../../../material';
   templateUrl: './organisation-create.component.html',
   providers: [ContextService]
 })
-export class OrganisationCreateComponent implements OnInit, OnDestroy {
+export class OrganisationCreateComponent extends TestScope implements OnInit, OnDestroy {
 
   public m: Meta;
 
@@ -41,6 +41,8 @@ export class OrganisationCreateComponent implements OnInit, OnDestroy {
     private saveService: SaveService,
     private route: ActivatedRoute,
     private stateService: StateService) {
+
+    super();
 
     this.m = this.metaService.m;
     this.refresh$ = new BehaviorSubject<Date>(undefined);
@@ -88,6 +90,6 @@ export class OrganisationCreateComponent implements OnInit, OnDestroy {
 
         this.dialogRef.close(data);
       },
-      this.saveService.errorHandler);
+        this.saveService.errorHandler);
   }
 }

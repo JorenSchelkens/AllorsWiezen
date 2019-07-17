@@ -5,7 +5,7 @@ import { Location } from '@angular/common';
 import { BehaviorSubject, Subscription, combineLatest } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
-import { Saved, ContextService, NavigationService, MetaService } from '../../../../../angular';
+import { Saved, ContextService, NavigationService, MetaService, TestScope } from '../../../../../angular';
 import { Person, } from '../../../../../domain';
 import { PullRequest } from '../../../../../framework';
 import { Meta } from '../../../../../meta';
@@ -18,7 +18,7 @@ import { ObjectData, SaveService } from '../../../../../material';
   templateUrl: './person-create.component.html',
   providers: [ContextService]
 })
-export class PersonCreateComponent implements OnInit, OnDestroy {
+export class PersonCreateComponent extends TestScope implements OnInit, OnDestroy {
 
   readonly m: Meta;
 
@@ -40,6 +40,8 @@ export class PersonCreateComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private saveService: SaveService,
     private stateService: StateService) {
+
+    super();
 
     this.m = this.metaService.m;
     this.refresh$ = new BehaviorSubject<Date>(undefined);

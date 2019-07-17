@@ -5,7 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { switchMap, filter } from 'rxjs/operators';
 
-import { ContextService, MetaService, PanelService } from '../../../../../../angular';
+import { ContextService, MetaService, PanelService, TestScope } from '../../../../../../angular';
 import { Locale, Organisation } from '../../../../../../domain';
 import { PullRequest, Sort } from '../../../../../../framework';
 import { Meta } from '../../../../../../meta';
@@ -19,7 +19,7 @@ import { SaveService } from '../../../../../../material';
   templateUrl: './organisation-overview-detail.component.html',
   providers: [ContextService, PanelService]
 })
-export class OrganisationOverviewDetailComponent implements OnInit, OnDestroy {
+export class OrganisationOverviewDetailComponent extends TestScope implements OnInit, OnDestroy {
 
   readonly m: Meta;
 
@@ -38,6 +38,8 @@ export class OrganisationOverviewDetailComponent implements OnInit, OnDestroy {
     public location: Location,
     private route: ActivatedRoute,
     private stateService: StateService) {
+
+    super();
 
     this.m = this.metaService.m;
     this.refresh$ = new BehaviorSubject<Date>(undefined);

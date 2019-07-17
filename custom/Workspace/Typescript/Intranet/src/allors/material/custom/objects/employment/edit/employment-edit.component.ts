@@ -6,7 +6,7 @@ import { switchMap, map } from 'rxjs/operators';
 import { PullRequest } from '../../../../../framework';
 import { Meta } from '../../../../../meta';
 import { Employment, Organisation } from '../../../../../domain';
-import { Saved, ContextService, MetaService, RefreshService } from '../../../../../angular';
+import { Saved, ContextService, MetaService, RefreshService, TestScope } from '../../../../../angular';
 import { ObjectData } from '../../../../base/services/object';
 import { StateService } from '../../../services/state';
 import { SaveService } from '../../../../../material';
@@ -15,7 +15,7 @@ import { SaveService } from '../../../../../material';
   templateUrl: './employment-edit.component.html',
   providers: [ContextService]
 })
-export class EmploymentEditComponent implements OnInit, OnDestroy {
+export class EmploymentEditComponent extends TestScope implements OnInit, OnDestroy {
 
   public m: Meta;
   public title = 'Edit Employment';
@@ -34,6 +34,8 @@ export class EmploymentEditComponent implements OnInit, OnDestroy {
     public metaService: MetaService,
     public refreshService: RefreshService,
     private saveService: SaveService) {
+
+    super();
 
     this.m = this.metaService.m;
   }
