@@ -1,13 +1,11 @@
-﻿using Microsoft.Extensions.Configuration;
-
-namespace Allors.Server
+﻿namespace Allors.Server
 {
+    using System.IO;
+    using Allors.Services;
     using System;
-
     using Microsoft.AspNetCore;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Logging;
-
     using NLog.Web;
 
     public class Program
@@ -34,20 +32,19 @@ namespace Allors.Server
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
-                .ConfigureAppConfiguration((hostingContext, config) =>
+                .ConfigureAppConfiguration((hostingContext, configurationBuilder) =>
                 {
-                    const string FileName = @"custom.appSettings.json";
-                    var userSettings = $@"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}/allors/{FileName}";
-                    var systemSettings = $@"{Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData)}/allors/{FileName}";
-
-                    config.AddJsonFile(systemSettings, true);
-                    config.AddJsonFile(userSettings, true);
+                    const string root = "/config/custom";
+                    var environmentName = hostingContext.HostingEnvironment.EnvironmentName;
+                    configurationBuilder.AddCrossPlatform(".", environmentName, true);
+                    configurationBuilder.AddCrossPlatform(root, environmentName);
+                    configurationBuilder.AddCrossPlatform(Path.Combine(root, "server"), environmentName);
                 })
                 .ConfigureLogging(logging =>
-                    {
-                        logging.ClearProviders();
-                        logging.SetMinimumLevel(LogLevel.Trace);
-                    })
+                {
+                    logging.ClearProviders();
+                    logging.SetMinimumLevel(LogLevel.Trace);
+                })
                 .UseNLog();
     }
 }

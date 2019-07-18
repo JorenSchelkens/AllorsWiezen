@@ -18,14 +18,12 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-using System;
-
 namespace Commands
 {
+    using System;
+    using System.IO;
     using Allors.Services;
-
     using McMaster.Extensions.CommandLineUtils;
-
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
@@ -34,20 +32,20 @@ namespace Commands
     {
         public static void Main(string[] args)
         {
+            var configurationBuilder = new ConfigurationBuilder();
+
+            const string root = "/config/custom";
+            configurationBuilder.AddCrossPlatform(".");
+            configurationBuilder.AddCrossPlatform(root);
+            configurationBuilder.AddCrossPlatform(Path.Combine(root, "commands"));
+            configurationBuilder.AddEnvironmentVariables();
+
+            var configuration = configurationBuilder.Build();
+
             var services = new ServiceCollection();
+
             services.AddAllors();
-
-            const string FileName = @"custom.appSettings.json";
-            var userSettings = $@"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}/allors/{FileName}";
-            var systemSettings = $@"{Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData)}/allors/{FileName}";
-
-            var configuration = new ConfigurationBuilder()
-                .AddJsonFile(@"appSettings.json")
-                .AddJsonFile(systemSettings, true)
-                .AddJsonFile(userSettings, true).Build();
-
             services.AddSingleton<IConfiguration>(configuration);
-
             services.AddSingleton<ILoggerFactory, LoggerFactory>();
             services.AddSingleton(typeof(ILogger<>), typeof(Logger<>));
             services.AddLogging(builder => builder.SetMinimumLevel(LogLevel.Trace));

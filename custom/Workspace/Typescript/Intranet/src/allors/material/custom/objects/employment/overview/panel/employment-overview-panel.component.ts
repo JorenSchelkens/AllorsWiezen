@@ -1,10 +1,10 @@
 import { Component, Self, Input, OnInit, HostBinding } from '@angular/core';
 import * as moment from 'moment';
 
-import { ISessionObject, RoleType, Fetch, Pull } from '../../../../../../framework';
+import { RoleType } from '../../../../../../framework';
 import { Meta } from '../../../../../../meta';
-import { PanelService, MetaService, RefreshService, Action, ActionTarget } from '../../../../../../angular';
-import { DeleteService, TableRow, Table, ObjectService, CreateData } from '../../../../..';
+import { PanelService, MetaService, RefreshService, Action, ActionTarget, TestScope } from '../../../../../../angular';
+import { DeleteService, TableRow, Table, ObjectService, ObjectData, EditService } from '../../../../..';
 
 import { Employment } from '../../../../../../domain';
 
@@ -21,7 +21,7 @@ interface Row extends TableRow {
   templateUrl: './employment-overview-panel.component.html',
   providers: [PanelService]
 })
-export class EmployementOverviewPanelComponent implements OnInit {
+export class EmployementOverviewPanelComponent extends TestScope implements OnInit {
   @Input() roleType: RoleType;
 
   @HostBinding('class.expanded-panel') get expandedPanelClass() {
@@ -34,16 +34,9 @@ export class EmployementOverviewPanelComponent implements OnInit {
   table: Table<Row>;
 
   delete: Action;
+  edit: Action;
 
-  edit: Action = {
-    name: (target: ActionTarget) => 'Edit',
-    description: (target: ActionTarget) => 'Edit',
-    disabled: (target: ActionTarget) => !this.objectService.hasEditControl(target as ISessionObject),
-    execute: (target: ActionTarget) => this.objectService.edit(target as ISessionObject).subscribe((v) => this.refreshService.refresh()),
-    result: null
-  };
-
-  get createData(): CreateData {
+  get createData(): ObjectData {
     return {
       associationId: this.panel.manager.id,
       associationObjectType: this.panel.manager.objectType,
@@ -56,7 +49,9 @@ export class EmployementOverviewPanelComponent implements OnInit {
     public objectService: ObjectService,
     public refreshService: RefreshService,
     public deleteService: DeleteService,
+    public editService: EditService
   ) {
+    super();
 
     this.m = this.metaService.m;
   }
@@ -64,6 +59,7 @@ export class EmployementOverviewPanelComponent implements OnInit {
   ngOnInit() {
 
     this.delete = this.deleteService.delete(this.panel.manager.context);
+    this.edit = this.editService.edit();
 
     this.panel.name = 'employment';
     this.panel.title = 'Employement';
@@ -91,7 +87,7 @@ export class EmployementOverviewPanelComponent implements OnInit {
     const pullName = `${this.panel.name}_${this.m.Employment.name}`;
 
     this.panel.onPull = (pulls) => {
-      const { x,  pull } = this.metaService;
+      const { x, pull } = this.metaService;
       const { id } = this.panel.manager;
 
       pulls.push(

@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit, Output, Self, OnDestroy } from '@angular/core';
 
-import { ErrorService, Saved, ContextService, MetaService } from '../../../../../angular';
+import { Saved, ContextService, MetaService, TestScope } from '../../../../../angular';
 import { Enumeration, Locale, Person } from '../../../../../domain';
 import { PullRequest, Sort, Equals } from '../../../../../framework';
 import { Meta } from '../../../../../meta';
@@ -10,7 +10,7 @@ import { Meta } from '../../../../../meta';
   selector: 'person-inline',
   templateUrl: './person-inline.component.html'
 })
-export class PersonInlineComponent implements OnInit, OnDestroy {
+export class PersonInlineComponent extends TestScope implements OnInit, OnDestroy {
 
   @Output()
   public saved: EventEmitter<Person> = new EventEmitter<Person>();
@@ -28,24 +28,16 @@ export class PersonInlineComponent implements OnInit, OnDestroy {
 
   constructor(
     private allors: ContextService,
-    public metaService: MetaService,
-    private errorService: ErrorService) {
+    public metaService: MetaService) {
+
+    super();
 
     this.m = this.metaService.m;
   }
 
   public ngOnInit(): void {
 
-    const { pull, x } = this.metaService;
-
-    const pulls = [
-    ];
-
-    this.allors.context
-      .load('Pull', new PullRequest({ pulls }))
-      .subscribe((loaded) => {
-        this.person = this.allors.context.create('Person') as Person;
-      }, this.errorService.handler);
+    this.person = this.allors.context.create('Person') as Person;
   }
 
   public ngOnDestroy(): void {
@@ -59,7 +51,7 @@ export class PersonInlineComponent implements OnInit, OnDestroy {
   }
 
   public save(): void {
-      this.saved.emit(this.person);
-      this.person = undefined;
+    this.saved.emit(this.person);
+    this.person = undefined;
   }
 }

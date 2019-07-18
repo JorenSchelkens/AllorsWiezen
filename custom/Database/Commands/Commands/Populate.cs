@@ -20,19 +20,15 @@
 
 namespace Commands
 {
-    using System;
     using System.IO;
-
     using Allors;
     using Allors.Domain;
     using Allors.Services;
-
     using McMaster.Extensions.CommandLineUtils;
-
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.Logging;
 
-    [Command(Description = "Add file contents to the index")]
+    [Command(Description = "Start with a new population")]
     public class Populate
     {
         private readonly IDatabaseService databaseService;
@@ -56,7 +52,8 @@ namespace Commands
 
             using (var session = this.databaseService.Database.CreateSession())
             {
-                new Setup(session, this.dataPath).Apply();
+                var config = new Config { DataPath = this.dataPath, Demo = true };
+                new Setup(session, config).Apply();
 
                 session.Derive();
                 session.Commit();
@@ -65,11 +62,6 @@ namespace Commands
                 session.SetUser(administrator);
 
                 new Allors.Upgrade(session, this.dataPath).Execute();
-
-                session.Derive();
-                session.Commit();
-
-                new Demo(session, this.dataPath).Execute();
 
                 session.Derive();
                 session.Commit();

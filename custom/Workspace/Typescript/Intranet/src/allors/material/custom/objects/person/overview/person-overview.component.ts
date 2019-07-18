@@ -1,19 +1,18 @@
-import { Component, OnDestroy, OnInit, Self, Injector, AfterViewInit } from '@angular/core';
+import { Component, OnDestroy, Self, Injector, AfterViewInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription, combineLatest } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { switchMap} from 'rxjs/operators';
 
-import { ErrorService, NavigationService, NavigationActivatedRoute, PanelManagerService, RefreshService, MetaService, ContextService } from '../../../../../angular';
+import { NavigationService, NavigationActivatedRoute, PanelManagerService, RefreshService, MetaService, ContextService, TestScope } from '../../../../../angular';
 import { Person } from '../../../../../domain';
 import { PullRequest } from '../../../../../framework';
-import { StateService } from '../../../services/state';
 
 @Component({
   templateUrl: './person-overview.component.html',
   providers: [PanelManagerService, ContextService]
 })
-export class PersonOverviewComponent implements AfterViewInit, OnDestroy {
+export class PersonOverviewComponent extends TestScope implements AfterViewInit, OnDestroy {
 
   title = 'Person';
 
@@ -26,27 +25,26 @@ export class PersonOverviewComponent implements AfterViewInit, OnDestroy {
     public metaService: MetaService,
     public refreshService: RefreshService,
     public navigation: NavigationService,
-    private errorService: ErrorService,
     private route: ActivatedRoute,
-    private stateService: StateService,
     public injector: Injector,
     titleService: Title,
   ) {
+    super();
 
     titleService.setTitle(this.title);
   }
 
   public ngAfterViewInit(): void {
 
-    this.subscription = combineLatest(this.route.url, this.route.queryParams, this.refreshService.refresh$, this.stateService.organisationId$)
+    this.subscription = combineLatest(this.route.url, this.route.queryParams, this.refreshService.refresh$)
       .pipe(
-        switchMap(([urlSegments, queryParams, date, internalOrganisationId]) => {
+        switchMap(([urlSegments, queryParams, date]) => {
 
-          const { m, pull } = this.metaService;
+          const { m, pull, x } = this.metaService;
 
           const navRoute = new NavigationActivatedRoute(this.route);
-          this.panelManager.objectType = m.Person;
           this.panelManager.id = navRoute.id();
+          this.panelManager.objectType = m.Person;
           this.panelManager.expanded = navRoute.panel();
 
           this.panelManager.on();
@@ -54,7 +52,7 @@ export class PersonOverviewComponent implements AfterViewInit, OnDestroy {
           const pulls = [
             pull.Person({
               object: this.panelManager.id,
-            })
+            }),
           ];
 
           this.panelManager.onPull(pulls);
@@ -69,7 +67,7 @@ export class PersonOverviewComponent implements AfterViewInit, OnDestroy {
         this.panelManager.onPulled(loaded);
 
         this.person = loaded.objects.Person as Person;
-      }, this.errorService.handler);
+      });
   }
 
   public ngOnDestroy(): void {

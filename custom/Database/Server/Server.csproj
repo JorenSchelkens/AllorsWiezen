@@ -3,32 +3,35 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <!-- <UserSecretsId>aspnet-{Project Name}-{GUID}</UserSecretsId> -->
-    <UserSecretsId>aspnet-Server-055EA6FB-B4C3-42E1-8E25-C2840F1DFC4E</UserSecretsId>
-    <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel> 
-</PropertyGroup>
+    <UserSecretsId>aspnet-Server-85F0210F-48FE-413A-8DB3-08ED47B3A610</UserSecretsId>
+    <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+  </PropertyGroup>
 
   <ItemGroup>
-	<Compile Include="..\..\..\allors\Domains\Base\Database\Server\Export\**\*.cs" />
-  </ItemGroup> 
- 
+    <Compile Include="..\..\..\Allors\Base\Database\Server\Export\**\*.cs" />
+  </ItemGroup>
+
   <ItemGroup>
-    <PackageReference Include="JSNLog" Version="2.28.0" />
+    <Content Include="..\..\stylecop.json" Link="stylecop.json" />
+    <None Include="..\..\Settings.StyleCop" Link="Settings.StyleCop" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="JSNLog" Version="2.29.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.1" PrivateAssets="All" />
-    <PackageReference Include="NLog.Web.AspNetCore" Version="4.8.0" />
-    <PackageReference Include="Polly" Version="6.1.2" />
-  </ItemGroup> 
- 
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" PrivateAssets="All" />
+    <PackageReference Include="NLog.Web.AspNetCore" Version="4.8.3" />
+    <PackageReference Include="Polly" Version="7.1.0" />
+  </ItemGroup>
+
   <ItemGroup>
-    <ProjectReference Include="..\..\..\allors\Platform\Database\Adapters\Allors.Adapters.Memory\Allors.Adapters.Memory.csproj" />
-    <ProjectReference Include="..\..\..\allors\Platform\Database\Adapters\Allors.Adapters.Object.SqlClient\Allors.Adapters.Object.SqlClient.csproj" />
-    <ProjectReference Include="..\..\..\allors\Platform\Database\Framework\Allors.Framework\Allors.Framework.csproj" />
+    <ProjectReference Include="..\..\..\Allors\Platform\Adapters\Allors.Adapters.Object.SqlClient\Allors.Adapters.Object.SqlClient.csproj" />
     <ProjectReference Include="..\Domain\Domain.csproj" />
     <ProjectReference Include="..\Meta\Meta.csproj" />
     <ProjectReference Include="..\Resources\Resources.csproj" />
     <ProjectReference Include="..\Services\Services.csproj" />
-  </ItemGroup> 
- 
+  </ItemGroup>
+
   <ItemGroup>
     <Content Update="nlog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

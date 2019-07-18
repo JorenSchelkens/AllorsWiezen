@@ -11,4 +11,5 @@ function link(src, dst){
     .catch(() =>  console.log(basename + ' already linked'))
 }
 
-link ('../../../../../Platform/Workspace/Typescript/src/allors/framework', 'src/allors');
+link ('../../../../allors/Platform/Framework/Typescript/framework', 'src/allors');
+link ('../../../../allors/Base/Workspace/Typescript/Domain/src/allors/domain/base', 'src/allors/domain');

@@ -1,7 +1,6 @@
 namespace Allors.Repository
 {
     using System;
-
     using Attributes;
 
     #region Allors
@@ -14,7 +13,7 @@ namespace Allors.Repository
 
         public SecurityToken[] SecurityTokens { get; set; }
         #endregion
-        
+
         #region Allors
         [Id("12AC77FF-5E0B-4E72-B9AE-8375CDD840DE")]
         [AssociationId("BCFC78B7-0075-4270-BB0F-C19AA398CE18")]
@@ -45,7 +44,7 @@ namespace Allors.Repository
         [Workspace]
         [Required]
         public DateTime From { get; set; }
-        
+
         #region Allors
         [Id("A1495CB5-47D5-4D60-97F4-380BE9120865")]
         [AssociationId("E1423D7E-623A-4D68-B5B9-9E95A0EA5118")]
@@ -56,17 +55,19 @@ namespace Allors.Repository
 
         #region inherited methods
 
-        public void OnBuild(){}
+        public void OnBuild() { }
 
-        public void OnPostBuild(){}
+        public void OnPostBuild() { }
 
-        public void OnPreDerive(){}
+        public void OnInit() { }
 
-        public void OnDerive(){}
+        public void OnPreDerive() { }
 
-        public void OnPostDerive(){}
+        public void OnDerive() { }
 
-        public void Delete(){}
+        public void OnPostDerive() { }
+
+        public void Delete() { }
 
         #endregion
     }

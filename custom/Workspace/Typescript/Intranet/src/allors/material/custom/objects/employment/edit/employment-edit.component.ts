@@ -6,15 +6,16 @@ import { switchMap, map } from 'rxjs/operators';
 import { PullRequest } from '../../../../../framework';
 import { Meta } from '../../../../../meta';
 import { Employment, Organisation } from '../../../../../domain';
-import { ErrorService, Saved, ContextService, MetaService, RefreshService } from '../../../../../angular';
-import { CreateData, EditData, ObjectData } from '../../../../base/services/object';
+import { Saved, ContextService, MetaService, RefreshService, TestScope } from '../../../../../angular';
+import { ObjectData } from '../../../../base/services/object';
 import { StateService } from '../../../services/state';
+import { SaveService } from '../../../../../material';
 
 @Component({
   templateUrl: './employment-edit.component.html',
   providers: [ContextService]
 })
-export class EmploymentEditComponent implements OnInit, OnDestroy {
+export class EmploymentEditComponent extends TestScope implements OnInit, OnDestroy {
 
   public m: Meta;
   public title = 'Edit Employment';
@@ -27,12 +28,14 @@ export class EmploymentEditComponent implements OnInit, OnDestroy {
 
   constructor(
     @Self() public allors: ContextService,
-    @Inject(MAT_DIALOG_DATA) public data: CreateData & EditData,
+    @Inject(MAT_DIALOG_DATA) public data: ObjectData,
     public stateService: StateService,
     public dialogRef: MatDialogRef<EmploymentEditComponent>,
     public metaService: MetaService,
     public refreshService: RefreshService,
-    private errorService: ErrorService) {
+    private saveService: SaveService) {
+
+    super();
 
     this.m = this.metaService.m;
   }
@@ -43,9 +46,9 @@ export class EmploymentEditComponent implements OnInit, OnDestroy {
 
     this.subscription = combineLatest(this.refreshService.refresh$)
       .pipe(
-        switchMap(([]) => {
+        switchMap(([v]) => {
 
-          const create = (this.data as EditData).id === undefined;
+          const create = (this.data as ObjectData).id === undefined;
           const { id, associationId } = this.data;
 
           const pulls = [
@@ -86,7 +89,7 @@ export class EmploymentEditComponent implements OnInit, OnDestroy {
           this.object.Employer = this.container;
         }
 
-      }, this.errorService.handler);
+      }, this.saveService.errorHandler);
   }
 
   public ngOnDestroy(): void {
@@ -106,8 +109,6 @@ export class EmploymentEditComponent implements OnInit, OnDestroy {
 
         this.dialogRef.close(data);
       },
-        (error: Error) => {
-          this.errorService.handle(error);
-        });
+        this.saveService.errorHandler);
   }
 }

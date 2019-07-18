@@ -1,22 +1,23 @@
-namespace Tests.Intranet
+using Microsoft.Extensions.Logging;
+using NLog.Extensions.Logging;
+
+namespace Tests
 {
     using System;
     using System.Globalization;
     using System.IO;
     using System.Xml;
-
     using Allors;
     using Allors.Adapters.Object.SqlClient;
     using Allors.Domain;
     using Allors.Meta;
     using Allors.Services;
-
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
-
     using OpenQA.Selenium;
-
     using ObjectFactory = Allors.ObjectFactory;
+    using src.app.auth;
+    using src.app.main;
 
     public abstract class Test : IDisposable
     {
@@ -39,36 +40,48 @@ namespace Tests.Intranet
         protected Test(TestFixture fixture)
         {
             // Init Browser
-            this.Driver = fixture.Driver;
+            this.DriverManager = new DriverManager();
+            this.DriverManager.Start();
 
             // Init Server
             this.Driver.Navigate().GoToUrl(Test.DatabaseInitUrl);
 
-            // Init Allors
             CultureInfo.CurrentCulture = new CultureInfo("nl-BE");
             CultureInfo.CurrentUICulture = CultureInfo.CurrentCulture;
 
-            var myAppSettings = $@"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}/apps.appSettings.json";
-            
-            var appConfiguration = new ConfigurationBuilder()
-                .AddJsonFile(@"appSettings.json")
-                .AddJsonFile(myAppSettings, true)
-                .Build();
-            var objectFactory = new ObjectFactory(MetaPopulation.Instance, typeof(User));
+            // Init Allors
+            var configurationBuilder = new ConfigurationBuilder();
+
+            const string root = "/config/apps";
+            configurationBuilder.AddCrossPlatform(".");
+            configurationBuilder.AddCrossPlatform(root);
+            configurationBuilder.AddCrossPlatform(Path.Combine(root, "server"));
+            configurationBuilder.AddEnvironmentVariables();
+
+            var configuration = configurationBuilder.Build();
 
             var services = new ServiceCollection();
             services.AddAllors();
-            var serviceProvider = services.BuildServiceProvider();
+            services.AddSingleton<IConfiguration>(configuration);
+            services.AddSingleton<ILoggerFactory, LoggerFactory>();
+            services.AddSingleton(typeof(ILogger<>), typeof(Logger<>));
+            services.AddLogging(builder => builder.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace));
 
-            var configuration = new Configuration
+            this.ServiceProvider = services.BuildServiceProvider();
+
+            var loggerFactory = this.ServiceProvider.GetService<ILoggerFactory>();
+            loggerFactory.AddNLog(new NLogProviderOptions { CaptureMessageTemplates = true, CaptureMessageProperties = true });
+            NLog.LogManager.LoadConfiguration("nlog.config");
+
+            this.Logger = (ILogger)this.ServiceProvider.GetService(typeof(ILogger<>).MakeGenericType(new[] { this.GetType() }));
+
+            var database = new Database(this.ServiceProvider, new Configuration
             {
-                ConnectionString = appConfiguration["ConnectionStrings:DefaultConnection"],
-                ObjectFactory = objectFactory,
-            };
+                ConnectionString = configuration["ConnectionStrings:DefaultConnection"],
+                ObjectFactory = new ObjectFactory(MetaPopulation.Instance, typeof(User)),
+            });
 
-            var database = new Database(serviceProvider, configuration);
-
-            if (population == null && populationFileInfo.Exists)
+            if ((population == null) && populationFileInfo.Exists)
             {
                 population = File.ReadAllText(populationFileInfo.FullName);
             }
@@ -87,16 +100,16 @@ namespace Tests.Intranet
 
                 using (var session = database.CreateSession())
                 {
-                    new Setup(session, null).Apply();
+                    var config = new Config();
+                    new Setup(session, config).Apply();
                     session.Commit();
 
-                    new Population(session, null).Execute();
+                    new IntranetPopulation(session, null).Execute();
 
                     session.Commit();
 
                     using (var stringWriter = new StringWriter())
                     {
-
                         using (var writer = XmlWriter.Create(stringWriter))
                         {
                             database.Save(writer);
@@ -109,23 +122,30 @@ namespace Tests.Intranet
             }
 
             this.Session = database.CreateSession();
-
         }
+        
+        public ServiceProvider ServiceProvider { get; set; }
+
+        public ILogger Logger { get; set; }
 
         public ISession Session { get; set; }
 
-        public IWebDriver Driver { get; set; }
+        public DriverManager DriverManager { get; }
+
+        public IWebDriver Driver => this.DriverManager.Driver;
+
+        public Sidenav Sidenav => new MainComponent(this.Driver).Sidenav;
 
         public virtual void Dispose()
         {
+            this.DriverManager.Stop();
         }
 
-        public DashboardPage Login(string userName = "administrator")
+        public void Login(string userName = "administrator")
         {
             this.Driver.Navigate().GoToUrl(Test.ClientUrl + "/login");
-
-            var page = new LoginPage(this.Driver);
-            return page.Login();
+            var login = new LoginComponent(this.Driver);
+            login.Login();
         }
     }
 }

@@ -24,14 +24,17 @@
         {
             string[,] config =
                 {
-                    { "../allors/Domains/Base/Database/Templates/domain.cs.stg", "DataBase/Domain/Generated" },
-                    { "../allors/Domains/Base/Database/Templates/uml.cs.stg", "DataBase/Diagrams/Generated" },
+                    { "../Allors/Base/Database/Templates/domain.cs.stg", "DataBase/Domain/Generated" },
+                    { "../Allors/Base/Database/Templates/uml.cs.stg", "DataBase/Domain.Diagrams/Generated" },
 
-                    { "../allors/Domains/Base/Workspace/Typescript/modules/Templates/meta.ts.stg", "Workspace/Typescript/Domain/src/allors/meta/generated" },
-                    { "../allors/Domains/Base/Workspace/Typescript/modules/Templates/domain.ts.stg", "Workspace/Typescript/Domain/src/allors/domain/generated" },
+                    { "../Allors/Base/Workspace/Typescript/Templates/meta.ts.stg", "Workspace/Typescript/Domain/src/allors/meta/generated" },
+                    { "../Allors/Base/Workspace/Typescript/Templates/domain.ts.stg", "Workspace/Typescript/Domain/src/allors/domain/generated" },
 
-                    { "../allors/Domains/Base/Workspace/Typescript/modules/Templates/meta.ts.stg", "Workspace/Typescript/Intranet/src/allors/meta/generated" },
-                    { "../allors/Domains/Base/Workspace/Typescript/modules/Templates/domain.ts.stg", "Workspace/Typescript/Intranet/src/allors/domain/generated" },
+                    { "../Allors/Base/Workspace/Typescript/Templates/meta.ts.stg", "Workspace/Typescript/Intranet/src/allors/meta/generated" },
+                    { "../Allors/Base/Workspace/Typescript/Templates/domain.ts.stg", "Workspace/Typescript/Intranet/src/allors/domain/generated" },
+
+                    { "../Allors/Base/Workspace/CSharp/Templates/meta.cs.stg", "Workspace/CSharp/Meta/generated" },
+                    { "../Allors/Base/Workspace/CSharp/Templates/domain.cs.stg", "Workspace/CSharp/Domain/generated" },
                 };
 
             for (var i = 0; i < config.GetLength(0); i++)
