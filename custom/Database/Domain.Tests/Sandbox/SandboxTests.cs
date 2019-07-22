@@ -28,6 +28,11 @@ namespace Allors
         [Fact]
         public void Dummy()
         {
+            // arrange
+
+            // act
+
+            // assert
         }
     }
 }

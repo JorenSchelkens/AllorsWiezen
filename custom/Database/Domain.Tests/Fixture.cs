@@ -34,7 +34,8 @@ namespace Allors
 
             using (var session = database.CreateSession())
             {
-                new Setup(session, null).Apply();
+                var config = new Config();
+                new Setup(session, config).Apply();
 
                 var administrator = new Users(session).GetUser("administrator");
                 session.SetUser(administrator);

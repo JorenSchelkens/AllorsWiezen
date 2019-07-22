@@ -18,6 +18,8 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
+using Allors.Domain;
+
 namespace Allors
 {
     public partial class Setup
@@ -36,6 +38,42 @@ namespace Allors
 
         private void CustomOnPostSetup()
         {
+            if (this.Config.Demo)
+            {
+                var jos = new PersonBuilder(this.session)
+                    .WithUserName("jos")
+                    .WithFirstName("Jos")
+                    .WithLastName("De Smos")
+                    .Build();
+
+                var jenny = new PersonBuilder(this.session)
+                    .WithUserName("jenny")
+                    .WithFirstName("Jenny")
+                    .WithLastName("De Penny")
+                    .Build();
+
+                var dev = new ChatBuilder(this.session)
+                    .WithName("dev")
+                    .WithTitle("Developer's Chat")
+                    .Build();
+
+                var general = new ChatBuilder(this.session)
+                   .WithName("general")
+                   .WithTitle("General Chat")
+                   .Build();
+
+                general.AddMessage(
+                    new MessageBuilder(session)
+                    .WithText("Hallo Jenny")
+                    .WithAuthor(jos)
+                    .Build());
+
+                general.AddMessage(
+                    new MessageBuilder(session)
+                    .WithText("Hallo Jos")
+                    .WithAuthor(jenny)
+                    .Build());
+            }
         }
     }
 }

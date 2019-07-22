@@ -20,53 +20,50 @@
 
 namespace Commands
 {
-    using Allors;
     using Allors.Domain;
     using Allors.Services;
-
+    using Humanizer;
     using McMaster.Extensions.CommandLineUtils;
     using Microsoft.Extensions.Logging;
     using System;
     using System.Linq;
 
-    [Command(Description = "Execute custom code")]
-    public class Custom
+    [Command(Description = "Add a chat message")]
+    public class List
     {
+        [Option(Description = "Message Text")]
+        public string Message { get; }
+
         private readonly IDatabaseService databaseService;
 
         private readonly ILogger<Custom> logger;
 
-        public Custom(IDatabaseService databaseService, ILogger<Custom> logger)
+        public List(IDatabaseService databaseService, ILogger<Custom> logger)
         {
             this.databaseService = databaseService;
             this.logger = logger;
         }
 
-        private Commands Parent { get; set; }
+        private ChatCommand Parent { get; set; }
 
         public int OnExecute(CommandLineApplication app)
         {
             using (var session = this.databaseService.Database.CreateSession())
             {
-                this.logger.LogInformation("Begin");
-
-                var administrator = new Users(session).GetUser("administrator");
-                session.SetUser(administrator);
-
                 var chat = new Chats(session)
                     .Extent()
-                    .FirstOrDefault(v => v.Name.Equals("dev"));
+                    .FirstOrDefault(v => v.Name.Equals(this.Parent.Box));
 
-                var message = new MessageBuilder(session)
-                    .WithText("Deze keer door administrator (2)")
-                    .Build();
+                Console.Write(chat.Messages.Count + " messages, by ");
 
-                chat.AddMessage(message);
+                var userNamesWithCommas = string.Join(", ", chat.Participants.Select(v => v.UserName));
 
-                session.Derive();
-                session.Commit();
+                Console.WriteLine(userNamesWithCommas);
 
-                this.logger.LogInformation("End");
+                foreach (Message message in chat.Messages)
+                {
+                    Console.WriteLine($"{message.Author.UserName} [{message.Date.Humanize()}]: {message.Text}");
+                }
             }
 
             return ExitCode.Success;

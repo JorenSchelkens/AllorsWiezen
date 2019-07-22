@@ -26,39 +26,39 @@ namespace Commands
 
     using McMaster.Extensions.CommandLineUtils;
     using Microsoft.Extensions.Logging;
-    using System;
     using System.Linq;
 
-    [Command(Description = "Execute custom code")]
-    public class Custom
+    [Command(Description = "Add a chat message")]
+    public class Add
     {
+        [Argument(0)]
+        public string[] Message { get; }
+
         private readonly IDatabaseService databaseService;
 
         private readonly ILogger<Custom> logger;
 
-        public Custom(IDatabaseService databaseService, ILogger<Custom> logger)
+        public Add(IDatabaseService databaseService, ILogger<Custom> logger)
         {
             this.databaseService = databaseService;
             this.logger = logger;
         }
 
-        private Commands Parent { get; set; }
+        private ChatCommand Parent { get; set; }
 
         public int OnExecute(CommandLineApplication app)
         {
             using (var session = this.databaseService.Database.CreateSession())
             {
-                this.logger.LogInformation("Begin");
-
-                var administrator = new Users(session).GetUser("administrator");
-                session.SetUser(administrator);
+                var user = new Users(session).GetUser(this.Parent.Parent.User) as Person;
 
                 var chat = new Chats(session)
                     .Extent()
-                    .FirstOrDefault(v => v.Name.Equals("dev"));
+                    .FirstOrDefault(v => v.Name.Equals(this.Parent.Box));
 
                 var message = new MessageBuilder(session)
-                    .WithText("Deze keer door administrator (2)")
+                    .WithAuthor(user)
+                    .WithText(string.Join(" ", this.Message))
                     .Build();
 
                 chat.AddMessage(message);
@@ -66,7 +66,7 @@ namespace Commands
                 session.Derive();
                 session.Commit();
 
-                this.logger.LogInformation("End");
+                this.logger.LogInformation("Message Added");
             }
 
             return ExitCode.Success;

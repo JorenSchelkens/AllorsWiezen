@@ -38,6 +38,7 @@ namespace Commands
         typeof(Upgrade),
         typeof(Populate),
         typeof(Schedule),
+        typeof(ChatCommand),
         typeof(Print),
         typeof(Custom))]
     public class Commands
@@ -64,6 +65,9 @@ namespace Commands
         [Option("-t", Description = "Command Timeout in seconds")]
         public int CommandTimeout { get; set; } = 0;
 
+        [Option("-u", Description = "User")]
+        public string User { get; set; }
+        
         public int OnExecute(CommandLineApplication app)
         {
             app.ShowHelp();

@@ -25,7 +25,7 @@
             string[,] config =
                 {
                     { "../Allors/Base/Database/Templates/domain.cs.stg", "DataBase/Domain/Generated" },
-                    { "../Allors/Base/Database/Templates/uml.cs.stg", "DataBase/Domain.Diagrams/Generated" },
+                    { "../Allors/Base/Database/Templates/uml.cs.stg", "DataBase/Diagrams/Generated" },
 
                     { "../Allors/Base/Workspace/Typescript/Templates/meta.ts.stg", "Workspace/Typescript/Domain/src/allors/meta/generated" },
                     { "../Allors/Base/Workspace/Typescript/Templates/domain.ts.stg", "Workspace/Typescript/Domain/src/allors/domain/generated" },
