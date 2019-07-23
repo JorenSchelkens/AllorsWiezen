@@ -3,8 +3,8 @@ import { Subscription } from 'rxjs';
 import { switchMap, filter } from 'rxjs/operators';
 
 import { ContextService, NavigationService, PanelService, RefreshService, MetaService, TestScope } from '../../../../../../angular';
-import { Enumeration, Locale, Organisation, Person, Currency } from '../../../../../../domain';
-import { Equals, PullRequest, Sort } from '../../../../../../framework';
+import { Person } from '../../../../../../domain';
+import { PullRequest } from '../../../../../../framework';
 import { Meta } from '../../../../../../meta';
 import { SaveService } from '../../../../../../../allors/material';
 

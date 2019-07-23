@@ -9,11 +9,6 @@ public partial class Paths
     public AbsolutePath CustomDatabaseCommands => Custom / "Database/Commands";
     public AbsolutePath CustomDatabaseServer => Custom / "Database/Server";
     public AbsolutePath CustomDatabaseDomainTests => Custom / "Database/Domain.Tests/Domain.Tests.csproj";
-
-    public AbsolutePath CustomWorkspaceCSharp => Custom / "Workspace/CSharp";
-    public AbsolutePath CustomWorkspaceCSharpExcelAddIn => CustomWorkspaceCSharp / "ExcelAddIn";
-    public AbsolutePath CustomWorkspaceCSharpExcelAddInProject => CustomWorkspaceCSharpExcelAddIn / "ExcelAddIn.csproj";
-    public AbsolutePath CustomWorkspaceCSharpExcelAddInProjectSignTool => CustomWorkspaceCSharpExcelAddIn / "signtool.exe";
     
     public AbsolutePath CustomWorkspaceTypescriptDomain => Custom / "Workspace/Typescript/Domain";
     public AbsolutePath CustomWorkspaceTypescriptIntranet => Custom / "Workspace/Typescript/Intranet";

@@ -30,7 +30,7 @@ module.exports = function (config) {
     singleRun: false,
     restartOnFileChange: true,
     trxReporter: {
-      outputFile: 'dist/AppsWorkspaceTypescriptIntranet.trx',
+      outputFile: 'dist/WorkspaceTypescriptIntranet.trx',
       shortTestName: true
     },
     client: {

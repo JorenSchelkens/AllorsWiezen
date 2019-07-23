@@ -1,13 +1,9 @@
 using Nuke.Common;
-using Nuke.Common.IO;
 using Nuke.Common.Tooling;
 using Nuke.Common.Tools.DotNet;
-using Nuke.Common.Tools.MSBuild;
 using Nuke.Common.Tools.Npm;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
 using static Nuke.Common.Tools.Npm.NpmTasks;
-using static Nuke.Common.IO.FileSystemTasks;
-using static Nuke.Common.Tools.MSBuild.MSBuildTasks;
 
 partial class Build
 {
@@ -52,33 +48,7 @@ partial class Build
                 .SetOutput(Paths.ArtifactsCustomServer);
             DotNetPublish(dotNetPublishSettings);
         });
-
-    Target CustomPublishExcellAddIn => _ => _
-        .DependsOn(CustomPublishServer)
-        .DependsOn(CustomPublishCommands)
-        .Executes(() =>
-        {
-            try
-            {
-                CopyFile(Paths.SignTool, Paths.CustomWorkspaceCSharpExcelAddInProjectSignTool, FileExistsPolicy.Overwrite);
-
-                var msBuildSettings = new MSBuildSettings()
-                    .SetConfiguration(Configuration)
-                    .SetRestore(true)
-                    .SetProjectFile(Paths.CustomWorkspaceCSharpExcelAddInProject)
-                    .AddProperty("InstallUrl", "https://server.custom.net/excel/")
-                    .SetTargets("Publish");
-                MSBuild(msBuildSettings);
-                
-                DeleteDirectory(Paths.ArtifactsCustomExcellAddIn);
-                CopyDirectoryRecursively(Paths.CustomWorkspaceCSharpExcelAddIn / "bin" / Configuration / "app.publish", Paths.ArtifactsCustomExcellAddIn);
-            }
-            finally
-            {
-                DeleteFile(Paths.CustomWorkspaceCSharpExcelAddInProjectSignTool);
-            }
-        });
-
+    
     Target CustomWorkspaceNpmInstall => _ => _
         .After(Clean)
         .Executes(() =>

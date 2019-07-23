@@ -1,2 +1,1 @@
-import './Organisation';
 import './Person';

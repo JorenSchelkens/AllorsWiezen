@@ -12,7 +12,6 @@
   
   <ItemGroup>
     <Content Include="..\..\..\stylecop.json" Link="stylecop.json" />
-    <None Include="..\..\..\Settings.StyleCop" Link="Settings.StyleCop" />
   </ItemGroup>
 
   <ItemGroup>

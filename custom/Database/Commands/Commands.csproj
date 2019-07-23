@@ -41,7 +41,6 @@
 
   <ItemGroup>
     <Content Include="..\..\stylecop.json" Link="stylecop.json" />
-    <Content Include="..\..\Settings.StyleCop" Link="Settings.StyleCop" />
   </ItemGroup>
 
 </Project>

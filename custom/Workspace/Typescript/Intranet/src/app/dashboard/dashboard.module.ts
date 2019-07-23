@@ -19,9 +19,7 @@ import { RouterModule } from '@angular/router';
     CommonModule,
     MatIconModule,
     MatCardModule,
-    MatToolbarModule,
     RouterModule,
-    AllorsMaterialSideNavToggleModule
   ],
 })
 export class DashboardModule {

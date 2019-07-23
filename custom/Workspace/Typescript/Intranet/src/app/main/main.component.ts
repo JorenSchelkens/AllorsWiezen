@@ -22,7 +22,6 @@ export class MainComponent extends TestScope implements OnInit, OnDestroy {
 
   isProduction = environment.production;
 
-  private subscription: Subscription;
   private toggleSubscription;
   private openSubscription;
   private closeSubscription;
@@ -95,7 +94,6 @@ export class MainComponent extends TestScope implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
     this.toggleSubscription.unsubscribe();
     this.openSubscription.unsubscribe();
     this.closeSubscription.unsubscribe();

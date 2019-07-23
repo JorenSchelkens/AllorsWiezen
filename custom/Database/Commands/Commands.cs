@@ -38,7 +38,6 @@ namespace Commands
         typeof(Upgrade),
         typeof(Populate),
         typeof(Schedule),
-        typeof(ChatCommand),
         typeof(Print),
         typeof(Custom))]
     public class Commands

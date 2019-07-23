@@ -10,5 +10,4 @@ public partial class Paths
     public AbsolutePath ArtifactsCustomCommands => ArtifactsCustom / "Commands";
     public AbsolutePath ArtifactsCustomServer => ArtifactsCustom / "Server";
     public AbsolutePath ArtifactsCustomIntranet => ArtifactsCustom / "Intranet";
-    public AbsolutePath ArtifactsCustomExcellAddIn => ArtifactsCustom / "ExcelAddIn";
 }

@@ -7,6 +7,4 @@ export function appMeta(metaPopulation: MetaPopulation) {
 
   m.Person.list = '/contacts/people';
   m.Person.overview = '/contacts/person/:id';
-  m.Organisation.list = '/contacts/organisations';
-  m.Organisation.overview = '/contacts/organisation/:id';
  }

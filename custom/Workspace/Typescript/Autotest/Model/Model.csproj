@@ -23,7 +23,6 @@
 
   <ItemGroup>
     <Content Include="..\..\..\..\stylecop.json" Link="stylecop.json" />
-    <None Include="..\..\..\..\Settings.StyleCop" Link="Settings.StyleCop" />
   </ItemGroup>
 
   <ItemGroup>
@@ -37,9 +36,5 @@
 
   <ItemGroup>
     <Folder Include="Properties\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\CSharp\Meta\Workspace.Meta.csproj" />
   </ItemGroup>
 </Project>

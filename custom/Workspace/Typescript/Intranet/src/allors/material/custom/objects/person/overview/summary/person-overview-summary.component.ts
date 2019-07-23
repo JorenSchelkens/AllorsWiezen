@@ -1,6 +1,6 @@
 import { Component, Self } from '@angular/core';
 import { PanelService, NavigationService, MetaService, TestScope } from '../../../../../../angular';
-import { Person, Organisation } from '../../../../../../domain';
+import { Person } from '../../../../../../domain';
 import { Meta } from '../../../../../../meta';
 
 @Component({
@@ -14,7 +14,6 @@ export class PersonOverviewSummaryComponent extends TestScope {
   m: Meta;
 
   person: Person;
-  organisation: Organisation;
 
   constructor(
     @Self() public panel: PanelService,

@@ -52,17 +52,7 @@ namespace Commands
 
                 var administrator = new Users(session).GetUser("administrator");
                 session.SetUser(administrator);
-
-                var chat = new Chats(session)
-                    .Extent()
-                    .FirstOrDefault(v => v.Name.Equals("dev"));
-
-                var message = new MessageBuilder(session)
-                    .WithText("Deze keer door administrator (2)")
-                    .Build();
-
-                chat.AddMessage(message);
-
+                
                 session.Derive();
                 session.Commit();
 

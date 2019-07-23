@@ -13,7 +13,6 @@ partial class Build
         .After(Clean)
         .DependsOn(CustomWorkspaceSetup)
         .DependsOn(CustomPublishServer)
-        .DependsOn(CustomPublishExcellAddIn)
         .DependsOn(CustomPublishCommands)
         .Executes(async () =>
         {
@@ -40,8 +39,6 @@ partial class Build
                     CopyDirectoryRecursively(Paths.ArtifactsCustomCommands, Paths.DeployCommands);
                     CopyDirectoryRecursively(Paths.ArtifactsCustomServer, Paths.DeployServer);
                     CopyDirectoryRecursively(Paths.ArtifactsCustomIntranet, Paths.DeployIntranet);
-
-                    CopyDirectoryRecursively(Paths.ArtifactsCustomExcellAddIn, Paths.DeployServerExcel, DirectoryExistsPolicy.Merge, FileExistsPolicy.Overwrite);
 
                     DotNetRun(s => s
                       .SetProjectFile(Paths.CustomDatabaseCommands)

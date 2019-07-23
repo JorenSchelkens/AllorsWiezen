@@ -4,20 +4,15 @@ import { MatDialogModule } from '@angular/material/dialog';
 
 import { ids } from '../allors/meta/generated';
 
-import { OrganisationCreateModule, OrganisationCreateComponent } from '../allors/material/custom/objects/organisation/create/organisation-create.module';
 import { PersonCreateModule, PersonCreateComponent } from '../allors/material/custom/objects/person/create/person-create.module';
-import { EmploymentEditComponent, EmploymentEditModule } from '../allors/material/custom/objects/employment/edit/employment-edit.module';
 
 import { ObjectService, OBJECT_CREATE_TOKEN, OBJECT_EDIT_TOKEN } from '../allors/material/base/services/object';
 
 export const create = {
-  [ids.Organisation]: OrganisationCreateComponent,
   [ids.Person]: PersonCreateComponent,
-  [ids.Employment]: EmploymentEditComponent,
 };
 
 export const edit = {
-  [ids.Employment]: EmploymentEditComponent,
 };
 
 @NgModule({
@@ -25,14 +20,10 @@ export const edit = {
     CommonModule,
     MatDialogModule,
 
-    OrganisationCreateModule,
     PersonCreateModule,
-    EmploymentEditModule,
   ],
   entryComponents: [
-    OrganisationCreateComponent,
     PersonCreateComponent,
-    EmploymentEditComponent,
   ],
   providers: [
     ObjectService,

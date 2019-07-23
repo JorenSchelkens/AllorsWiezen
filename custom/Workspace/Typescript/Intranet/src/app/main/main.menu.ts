@@ -14,7 +14,6 @@ export const menu: MenuItem[] = [
     title: 'Contacts', icon: 'group',
     children: [
       { id: ids.Person },
-      { id: ids.Organisation },
     ]
   },
 ];

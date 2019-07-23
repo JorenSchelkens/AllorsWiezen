@@ -10,12 +10,9 @@ interface Item {
 }
 
 @Component({
-  styleUrls: ['./dashboard.component.scss'],
   templateUrl: './dashboard.component.html'
 })
 export class DashboardComponent extends TestScope implements OnInit {
-
-  apps: Item[];
 
   constructor(
     private titleService: Title
@@ -26,18 +23,5 @@ export class DashboardComponent extends TestScope implements OnInit {
   }
 
   ngOnInit(): void {
-    this.apps = [{
-      title: 'WorkOrder',
-      subtitle: 'Manage workorder',
-      icon: 'assignment',
-      routerLink: ['/app/workorder'],
-    },
-    {
-      title: 'Timesheet',
-      subtitle: 'Manage time entries',
-      icon: 'alarm',
-      routerLink: ['/app/timesheet'],
-    },
-    ];
   }
 }
