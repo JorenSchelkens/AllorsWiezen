@@ -102,6 +102,7 @@ namespace Allors.Domain
 
             //Act
             game.GameType = this.GameTypes.Miserie;
+            game.AddDeclarer(player1);
             game.AddWinner(this.player1);
 
             this.Session.Derive();
