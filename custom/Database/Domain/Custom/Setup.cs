@@ -38,18 +38,30 @@ namespace Allors
 
         private void CustomOnPostSetup()
         {
-            if (this.Config.Demo)
+            if (this.Config.Demo || this.Config.Unit)
             {
-                var jos = new PersonBuilder(this.session)
-                    .WithUserName("john")
-                    .WithFirstName("John")
-                    .WithLastName("Doe")
+                var speler1 = new PersonBuilder(this.session)
+                    .WithUserName("speler1")
+                    .WithFirstName("Speler")
+                    .WithLastName("Een")
                     .Build();
 
-                var jenny = new PersonBuilder(this.session)
-                    .WithUserName("jane")
-                    .WithFirstName("Jane")
-                    .WithLastName("Doe")
+                var speler2 = new PersonBuilder(this.session)
+                    .WithUserName("speler2")
+                    .WithFirstName("Speler")
+                    .WithLastName("Twee")
+                    .Build();
+
+                var speler3 = new PersonBuilder(this.session)
+                    .WithUserName("speler3")
+                    .WithFirstName("Speler")
+                    .WithLastName("Drie")
+                    .Build();
+
+                var speler4 = new PersonBuilder(this.session)
+                    .WithUserName("speler4")
+                    .WithFirstName("Speler")
+                    .WithLastName("Vier")
                     .Build();
             }
         }

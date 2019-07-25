@@ -24,8 +24,8 @@
       <FileName>Generated\domain.g.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Property Name="Games" />
       <Property Name="Players" />
+      <Property Name="Games" />
     </ShowAsAssociation>
   </Interface>
   <Interface Name="Allors.Domain.Game">

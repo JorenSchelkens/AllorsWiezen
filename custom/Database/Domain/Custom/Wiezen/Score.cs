@@ -9,19 +9,30 @@ namespace Allors.Domain
         public void CustomOnDerive(ObjectOnDerive method)
         {
             var game = this.GameWhereScore;
-            var gameType = game.GameType;
-
-            var winning = game.Winners.Contains(this.Player);
-
-            if (gameType.IsMiserie)
+            if (game.ExistEndDate && game.ExistGameType)
             {
-                this.Value = winning ? 5 : -5;
+
+                var gameType = game.GameType;
+
+                var winning = game.Winners.Contains(this.Player);
+
+                if (gameType.IsMiserie)
+                {
+                    this.Value = winning ? 5 : -5;
+                }
+
+                if (gameType.IsSoloSlim)
+                {
+                    this.Value = winning ? 15 : -15;
+                }
+
+
+            }
+            else
+            {
+                this.RemoveValue();
             }
 
-            if (gameType.IsSoloSlim)
-            {
-                this.Value = winning ? 15 : -15;
-            }
         }
     }
 }
