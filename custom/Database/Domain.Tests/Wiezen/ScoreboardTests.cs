@@ -25,7 +25,7 @@ namespace Allors.Domain
     using System.Linq;
     using Xunit;
 
-    public class ScoreTest : DomainTest
+    public class ScoreboardTests : DomainTest
     {
         private Scoreboard scoreboard;
         private Person player1;
@@ -35,7 +35,7 @@ namespace Allors.Domain
 
         private GameTypes GameTypes;
 
-        public ScoreTest()
+        public ScoreboardTests()
         {
             var people = new People(this.Session);
 
@@ -57,61 +57,45 @@ namespace Allors.Domain
         }
 
         [Fact]
-        public void TestSync()
+        public void TestNulProefWithValues()
         {
             //Arrange
             var game = new GameBuilder(this.Session).Build();
-
-            //Act
             scoreboard.AddGame(game);
+
             this.Session.Derive();
 
-            //Assert
-            Assert.Equal(4, game.Scores.Count);
+            var scores = game.Scores.ToArray();
 
+            //Act
+            scores[0].Value = -5;
+            scores[1].Value = -5;
+            scores[2].Value = 5;
+            scores[3].Value = 5;
+
+            //Assert
+            Assert.True(scoreboard.NulProef());
         }
 
         [Fact]
-        public void TestMiserieWithoutWinners()
+        public void TestNulProefWithoutValues()
         {
             //Arrange
             var game = new GameBuilder(this.Session).Build();
             scoreboard.AddGame(game);
 
-            //Act
-            game.GameType = this.GameTypes.Miserie;
             this.Session.Derive();
 
-            //Assert
-            Assert.Null(game.Scores.First(v => v.Player == player1).Value);
-            Assert.Null(game.Scores.First(v => v.Player == player2).Value);
-            Assert.Null(game.Scores.First(v => v.Player == player3).Value);
-            Assert.Null(game.Scores.First(v => v.Player == player4).Value);
-            Assert.True(this.scoreboard.NulProef());
-        }
-
-        [Fact]
-        public void TestMiserieWithOneDeclarerAndOneWinner()
-        {
-            //Arrange
-            var game = new GameBuilder(this.Session).Build();
-            scoreboard.AddGame(game);
-
-            game.StartDate = this.Session.Now();
-            game.EndDate = game.StartDate.Value.AddHours(1);
+            var scores = game.Scores.ToArray();
 
             //Act
-            game.GameType = this.GameTypes.Miserie;
-            game.AddWinner(this.player1);
-
-            this.Session.Derive();
+            scores[0].Value = null;
+            scores[1].Value = null;
+            scores[2].Value = null;
+            scores[3].Value = null;
 
             //Assert
-            Assert.Equal(15, game.Scores.First(v => v.Player == player1).Value);
-            Assert.Equal(-5, game.Scores.First(v => v.Player == player2).Value);
-            Assert.Equal(-5, game.Scores.First(v => v.Player == player3).Value);
-            Assert.Equal(-5, game.Scores.First(v => v.Player == player4).Value);
-            Assert.True(this.scoreboard.NulProef());
+            Assert.True(scoreboard.NulProef());
         }
     }
 }

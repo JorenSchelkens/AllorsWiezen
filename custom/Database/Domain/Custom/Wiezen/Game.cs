@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Allors.Domain
 {
@@ -17,7 +18,19 @@ namespace Allors.Domain
 
         public void CustomOnDerive(ObjectOnDerive method)
         {
+            var validation = method.Derivation.Validation;
+
+            if (this.ExistStartDate && this.ExistEndDate)
+            {
+                if (this.EndDate.Value <= this.StartDate.Value)
+                {
+                    validation.AddError(new DerivationErrorGeneric(validation, this, this.Meta.EndDate, "End date should be after start date"));
+                }
+            }
+            this.Defenders = this.ScoreboardWhereGame.Players.Except(this.Declarers).ToArray();
+
             this.Sync();
+
         }
         private void Sync()
         {
@@ -50,6 +63,8 @@ namespace Allors.Domain
 
                 this.AddScore(score);
             }
+
+
         }
     }
 }

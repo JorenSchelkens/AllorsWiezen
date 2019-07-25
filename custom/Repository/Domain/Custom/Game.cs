@@ -62,6 +62,29 @@ namespace Allors.Repository
         [Workspace]
         public Person[] Winners { get; set; }
 
+        #region Allors
+
+        [Id("1803100c-f5f0-468d-8f0b-090fb46982f7")]
+        [AssociationId("1e6489c7-adc3-4586-a71b-b49d86805526")]
+        [RoleId("64ad4662-ee4b-439b-b176-a40b2e7cd9ad")]
+
+        #endregion Allors
+        [Multiplicity(Multiplicity.ManyToMany)]
+        [Workspace]
+        public Person[] Declarers{ get; set; }
+
+        #region Allors
+
+        [Id("375d3881-d54f-4692-b2db-8864669103f4")]
+        [AssociationId("e2d2d33b-3be1-49a2-98c8-f4536fa1518a")]
+        [RoleId("0e46bdc3-8807-48a5-bf39-1488e0a913d8")]
+
+        #endregion Allors
+        [Multiplicity(Multiplicity.ManyToMany)]
+        [Workspace]
+        [Derived]
+        public Person[] Defenders { get; set; }
+
         #region inherited methods
 
         public void OnBuild()

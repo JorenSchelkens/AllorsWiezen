@@ -25,7 +25,7 @@ namespace Allors.Domain
     using System.Linq;
     using Xunit;
 
-    public class ScoreboardTest : DomainTest
+    public class GameTests : DomainTest
     {
         private Scoreboard scoreboard;
         private Person player1;
@@ -35,7 +35,7 @@ namespace Allors.Domain
 
         private GameTypes GameTypes;
 
-        public ScoreboardTest()
+        public GameTests()
         {
             var people = new People(this.Session);
 
@@ -57,45 +57,41 @@ namespace Allors.Domain
         }
 
         [Fact]
-        public void TestNulProefWithValues()
+        public void TestStartDateBeforeEndDate()
         {
-            //Arrange
+            // Arrange
             var game = new GameBuilder(this.Session).Build();
-            scoreboard.AddGame(game);
+            this.scoreboard.AddGame(game);
 
             this.Session.Derive();
 
-            var scores = game.Scores.ToArray();
+            // Act
+            game.StartDate = this.Session.Now();
+            game.EndDate = game.StartDate.Value.AddHours(-1);
 
-            //Act
-            scores[0].Value = -5;
-            scores[1].Value = -5;
-            scores[2].Value = 5;
-            scores[3].Value = 5;
+            var validation = this.Session.Derive(false);
 
-            //Assert
-            Assert.True(scoreboard.NulProef());
+            // Assert
+            Assert.True(validation.HasErrors);
         }
 
         [Fact]
-        public void TestNulProefWithoutValues()
+        public void TestStartDateDoesNotEqualsEndDate()
         {
-            //Arrange
+            // Arrange
             var game = new GameBuilder(this.Session).Build();
-            scoreboard.AddGame(game);
+            this.scoreboard.AddGame(game);
 
             this.Session.Derive();
 
-            var scores = game.Scores.ToArray();
+            // Act
+            game.StartDate = this.Session.Now();
+            game.EndDate = game.StartDate;
 
-            //Act
-            scores[0].Value = null;
-            scores[1].Value = null;
-            scores[2].Value = null;
-            scores[3].Value = null;
+            var validation = this.Session.Derive(false);
 
-            //Assert
-            Assert.True(scoreboard.NulProef());
+            // Assert
+            Assert.True(validation.HasErrors);
         }
     }
 }
