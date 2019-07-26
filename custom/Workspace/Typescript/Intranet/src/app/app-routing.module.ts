@@ -8,6 +8,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 
 import * as PersonList from 'src/allors/material/custom/objects/person/list/person-list.module';
 import * as PersonOverview from 'src/allors/material/custom/objects/person/overview/person-overview.module';
+import { ErrorComponent } from './error/error.component';
 
 const modules = [
 
@@ -17,6 +18,7 @@ const modules = [
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
+  { path: 'error', component: ErrorComponent },
   {
     canActivate: [AuthorizationService],
     path: '', component: MainComponent,

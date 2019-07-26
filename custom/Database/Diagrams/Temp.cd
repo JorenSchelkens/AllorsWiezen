@@ -30,14 +30,26 @@
   </Interface>
   <Interface Name="Allors.Domain.Game">
     <Position X="4" Y="0.75" Width="1.5" />
+    <AssociationLine Name="Declarers" Type="Allors.Domain.Person">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.16" Y="0.568" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="Defenders" Type="Allors.Domain.Person">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.227" Y="0.227" />
+      </MemberNameLabel>
+    </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAAAABAAAAAAAAgAAAAAAAEgAAAAAAAAAAAAAEAAAAA=</HashCode>
+      <HashCode>AAAAABAAAAAAAAgAAAAAAAEgAAAAAAAAAAAAAEAAAAI=</HashCode>
       <FileName>Generated\domain.g.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Property Name="Scores" />
       <Property Name="GameType" />
       <Property Name="Winners" />
+      <Property Name="Declarers" />
+      <Property Name="Defenders" />
     </ShowAsAssociation>
   </Interface>
   <Interface Name="Allors.Domain.GameType">

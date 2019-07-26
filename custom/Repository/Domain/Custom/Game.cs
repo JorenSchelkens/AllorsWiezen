@@ -71,7 +71,7 @@ namespace Allors.Repository
         #endregion Allors
         [Multiplicity(Multiplicity.ManyToMany)]
         [Workspace]
-        public Person[] Declarers{ get; set; }
+        public Person[] Declarers { get; set; }
 
         #region Allors
 
@@ -84,6 +84,16 @@ namespace Allors.Repository
         [Workspace]
         [Derived]
         public Person[] Defenders { get; set; }
+
+        #region Allors
+
+        [Id("99ecbe80-b9b2-43a4-b9a3-7cd2e74e8182")]
+        [AssociationId("1fd8b46e-df1c-4b60-94b4-89a99e2a2dd3")]
+        [RoleId("2419b7eb-a559-4901-9f5d-4c5386b1164d")]
+
+        #endregion Allors
+        [Workspace]
+        public int Overslagen { get; set; }
 
         #region inherited methods
 

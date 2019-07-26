@@ -110,7 +110,7 @@ export class PersonListComponent extends TestScope implements OnInit, OnDestroy 
               predicate,
               sort: sorter.create(sort),
               include: {
-                Picture: x,
+                
               },
               arguments: this.filterService.arguments(filterFields),
               skip: pageEvent.pageIndex * pageEvent.pageSize,

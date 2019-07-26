@@ -63,6 +63,19 @@ namespace Allors
                     .WithFirstName("Speler")
                     .WithLastName("Vier")
                     .Build();
+
+                if (this.Config.Demo)
+                {
+                    var scoreboard = new ScoreboardBuilder(this.session)
+                        .WithPlayer(speler1)
+                        .WithPlayer(speler2)
+                        .WithPlayer(speler3)
+                        .WithPlayer(speler4)
+                        .Build();
+
+                    var game = new GameBuilder(this.session).Build();
+                    scoreboard.AddGame(game);
+                }
             }
         }
     }

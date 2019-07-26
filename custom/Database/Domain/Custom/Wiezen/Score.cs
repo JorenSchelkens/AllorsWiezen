@@ -119,6 +119,44 @@ namespace Allors.Domain
                 }
 
 
+                if (gameType.IsAlleenGaan || gameType.IsVragenEnMeegaan || gameType.IsTroel)
+                {
+                    int aantalDefendersPerPersoon = 3;
+                    var overslagenOmDubbelTeZijn = 8;
+
+                    if (gameType.IsVragenEnMeegaan || gameType.IsTroel)
+                    {
+                        aantalDefendersPerPersoon = 1;
+                        overslagenOmDubbelTeZijn = 5;
+                    }
+
+                    var overslagen = this.GameWhereScore.Overslagen ?? 0;
+
+                    if (declaring)
+                    {
+                        int punten = aantalDefendersPerPersoon * 2 + (aantalDefendersPerPersoon * overslagen);
+                        int puntenWinst = punten;
+                        if (overslagen == overslagenOmDubbelTeZijn)
+                        {
+                            puntenWinst = punten * 2;
+                        }
+                        this.Value = winning ? puntenWinst : -punten;
+                    }
+                    else
+                    {
+                        int punten = 2 + (overslagen);
+                        if (overslagen == overslagenOmDubbelTeZijn)
+                        {
+                            punten = punten * 2;
+                        }
+                        this.Value = winners.Count() == 0 ? punten : -punten;
+                    }
+                    if (gameType.IsTroel)
+                    {
+                        this.Value = this.Value * 2;
+                    }
+                }
+
             }
             else
             {

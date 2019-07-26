@@ -87,7 +87,7 @@ export class PersonOverviewDetailComponent extends TestScope implements OnInit, 
             pull.Person({
               object: id,
               include: {
-                Picture: x,
+                
               }
             }),
           ];
