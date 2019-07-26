@@ -7,8 +7,14 @@ namespace Allors.Repository
     [Id("2df33e72-cb19-4647-9160-ed10a2552729")]
     #endregion
 
-    public class Score : Object, Deletable
+    public class Score : AccessControlledObject, Deletable
     {
+        #region Inherited Properties
+        public Permission[] DeniedPermissions { get; set; }
+        public SecurityToken[] SecurityTokens { get; set; }
+
+        #endregion
+
         #region Allors
 
         [Id("19b4ccc7-c396-474d-a3b2-ad631932545e")]

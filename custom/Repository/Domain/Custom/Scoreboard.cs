@@ -6,8 +6,15 @@ namespace Allors.Repository
     #region Allors
     [Id("ec923a15-6ff4-4ad6-8a7a-eb06a2c2e1b6")]
     #endregion
-    public partial class Scoreboard : Object
+    public partial class Scoreboard : AccessControlledObject
     {
+        #region Inherited Properties
+        public Permission[] DeniedPermissions { get; set; }
+        public SecurityToken[] SecurityTokens { get; set; }
+
+        #endregion
+
+
         #region Allors
 
         [Id("8f31ae77-ed28-4931-a689-9261315ad44c")]

@@ -38,7 +38,7 @@ namespace Allors
 
         private void CustomOnPostSetup()
         {
-            if (this.Config.Demo || this.Config.Unit)
+            if (this.Config.Demo || this.Config.Unit || this.Config.End2End)
             {
                 var speler1 = new PersonBuilder(this.session)
                     .WithUserName("speler1")
@@ -64,7 +64,7 @@ namespace Allors
                     .WithLastName("Vier")
                     .Build();
 
-                if (this.Config.Demo)
+                if (this.Config.Demo || this.Config.End2End)
                 {
                     var scoreboard = new ScoreboardBuilder(this.session)
                         .WithPlayer(speler1)
@@ -72,9 +72,6 @@ namespace Allors
                         .WithPlayer(speler3)
                         .WithPlayer(speler4)
                         .Build();
-
-                    var game = new GameBuilder(this.session).Build();
-                    scoreboard.AddGame(game);
                 }
             }
         }

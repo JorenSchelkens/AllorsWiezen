@@ -1,5 +1,8 @@
 namespace Tests.ApplicationTests
 {
+    using Allors.Domain;
+    using Components;
+    using src.app.dashboard;
     using Xunit;
 
     [Collection("Test collection")]
@@ -8,14 +11,24 @@ namespace Tests.ApplicationTests
         public DashboardTest(TestFixture fixture)
             : base(fixture)
         {
+            this.Login();
+            
         }
 
         [Fact]
-        public async void Title()
+        public async void CreateGame()
         {
-            this.Login();
+            var gamesBefore = this.Session.Extent<Game>().ToArray();
+           
+            var dashboard = new DashboardComponent(this.Driver);
+            dashboard.CreateGame.Click();
 
-            Assert.Equal("Dashboard", this.Driver.Title);
+            this.Driver.WaitForAngular();
+
+            this.Session.Rollback();
+            var gamesAfter = this.Session.Extent<Game>().ToArray();
+
+            Assert.Equal(gamesBefore.Length + 1, gamesAfter.Length);
         }
     }
 }

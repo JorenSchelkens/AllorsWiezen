@@ -100,7 +100,7 @@ namespace Tests
 
                 using (var session = database.CreateSession())
                 {
-                    var config = new Config();
+                    var config = new Config {End2End = true };
                     new Setup(session, config).Apply();
                     session.Commit();
 

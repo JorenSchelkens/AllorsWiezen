@@ -10,14 +10,39 @@
     </div>
   </div>
 
-  <div class="container">
-    <div *ngIf="scoreboard" class="row">
-      <h1>Players</h1>
-      <ul>
-        <li *ngFor="let player of scoreboard.Players">
-          {{player.displayName}}
-        </li>
-      </ul>
+  <div *ngIf="scoreboard" class="container">
+    <div class="row">
+      <div class="col-sm">
+        <h1>Players</h1>
+      </div>
+      <div class="col-sm">
+        <ul>
+          <li *ngFor="let player of scoreboard.Players">
+            {{player.displayName}}
+          </li>
+        </ul>
+      </div>
+
+      <div class="row">
+        <button type="button" *ngIf="!game" (click)="createGame()">Create Game</button>
+        <button type="button" *ngIf="!!game && !game?.StartDate" (click)="startGame()">Start Game</button>
+        <button type="button" *ngIf="isRunning" (click)="stopGame()">Stop Game</button>
+      </div>
+
+      <div class="row" *ngIf="isRunning">
+        <div class="col">
+
+          <a-mat-autocomplete class="col-md" 
+          [object]="game" 
+          [roleType]="m.Game.GameType" 
+          [options]="gameTypes" 
+          display="Name" 
+          hint="With game type"
+          (changed)="save()">
+          </a-mat-autocomplete>
+
+        </div>
+      </div>
     </div>
   </div>
 

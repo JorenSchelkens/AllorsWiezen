@@ -27,43 +27,53 @@ namespace Allors.Domain
                     validation.AddError(new DerivationErrorGeneric(validation, this, this.Meta.EndDate, "End date should be after start date"));
                 }
             }
-            this.Defenders = this.ScoreboardWhereGame.Players.Except(this.Declarers).ToArray();
+            this.Defenders = this.ScoreboardWhereGame?.Players.Except(this.Declarers).ToArray();
 
             this.Sync();
 
         }
         private void Sync()
         {
-            var players = new List<Person>(this.ScoreboardWhereGame.Players);
-
-            // Fase1: Verwijderen van overbodige statistics en
-            //        bijhouden van participants zonder statistics
-            foreach (Score score in this.Scores)
+            if (this.ExistScoreboardWhereGame)
             {
-                var player = score.Player;
-                if (players.Contains(player))
+                var players = new List<Person>(this.ScoreboardWhereGame.Players);
+
+                // Fase1: Verwijderen van overbodige statistics en
+                //        bijhouden van participants zonder statistics
+                foreach (Score score in this.Scores)
                 {
-                    // verwijder participants die al een statistic hebben
-                    players.Remove(player);
+                    var player = score.Player;
+                    if (players.Contains(player))
+                    {
+                        // verwijder participants die al een statistic hebben
+                        players.Remove(player);
+                    }
+                    else
+                    {
+                        // delete statistic waarvan de participant niet meer voorkomt
+                        score.Delete();
+                    }
                 }
-                else
+
+                // Fase2: creeer statistics voor de participants die nog geen
+                //        statistic hadden
+                foreach (var player in players)
                 {
-                    // delete statistic waarvan de participant niet meer voorkomt
+                    var score = new ScoreBuilder(this.strategy.Session)
+                        .WithPlayer(player)
+                        .Build();
+
+                    this.AddScore(score);
+                }
+
+            }
+            else
+            {
+                foreach(Score score in this.Scores)
+                {
                     score.Delete();
                 }
             }
-
-            // Fase2: creeer statistics voor de participants die nog geen
-            //        statistic hadden
-            foreach (var player in players)
-            {
-                var score = new ScoreBuilder(this.strategy.Session)
-                    .WithPlayer(player)
-                    .Build();
-
-                this.AddScore(score);
-            }
-
 
         }
     }
