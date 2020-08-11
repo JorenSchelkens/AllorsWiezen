@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <!-- <UserSecretsId>aspnet-{Project Name}-{GUID}</UserSecretsId> -->
     <UserSecretsId>aspnet-Server-85F0210F-48FE-413A-8DB3-08ED47B3A610</UserSecretsId>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>

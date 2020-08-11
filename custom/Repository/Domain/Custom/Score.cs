@@ -23,6 +23,7 @@ namespace Allors.Repository
 
         #endregion Allors
         [Multiplicity(Multiplicity.ManyToOne)]
+        [Derived]
         [Workspace]
         public Person Player { get; set; }
 

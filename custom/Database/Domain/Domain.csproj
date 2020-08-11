@@ -18,11 +18,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Allors.Documents" Version="1.0.3" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.2.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Allors\Base\Database\Document\Allors.Document\Allors.Document.csproj" />
     <ProjectReference Include="..\Meta\Meta.csproj" />
     <ProjectReference Include="..\Resources\Resources.csproj" />
   </ItemGroup>

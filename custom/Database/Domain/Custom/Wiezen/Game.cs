@@ -10,6 +10,7 @@ namespace Allors.Domain
         {
             var derivation = method.Derivation;
 
+            //TODO: check for change
             foreach (Object score in this.Scores)
             {
                 derivation.AddDependency(score, this);
