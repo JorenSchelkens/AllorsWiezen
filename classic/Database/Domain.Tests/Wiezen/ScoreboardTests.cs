@@ -97,5 +97,141 @@ namespace Allors.Domain
             //Assert
             Assert.True(scoreboard.NulProef());
         }
+
+        [Fact]
+        public void TestAccumulatedScoresWithOneGame()
+        {
+            //Arrange
+            var game = new GameBuilder(this.Session).Build();
+            scoreboard.AddGame(game);
+
+            game.StartDate = this.Session.Now();
+            game.EndDate = game.StartDate.Value.AddHours(1);
+
+            //Act
+            game.GameType = this.GameTypes.AlleenGaan;
+
+            game.AddDeclarer(player1);
+            game.Overslagen = 0;
+
+            game.AddWinner(this.player1);
+
+            this.Session.Derive();
+
+            //Assert
+            Assert.Equal(6, scoreboard.AccumulatedScores.First(v => v.Player == player1).Value);
+            Assert.Equal(-2, scoreboard.AccumulatedScores.First(v => v.Player == player2).Value);
+            Assert.Equal(-2, scoreboard.AccumulatedScores.First(v => v.Player == player3).Value);
+            Assert.Equal(-2, scoreboard.AccumulatedScores.First(v => v.Player == player4).Value);
+        }
+
+        [Fact]
+        public void TestAccumulatedScoresWithTwoGames()
+        {
+            //Arrange
+            var game = new GameBuilder(this.Session).Build();
+            scoreboard.AddGame(game);
+
+            game.StartDate = this.Session.Now();
+            game.EndDate = game.StartDate.Value.AddHours(1);
+
+            var game2 = new GameBuilder(this.Session).Build();
+            scoreboard.AddGame(game2);
+
+            game2.StartDate = this.Session.Now();
+            game2.EndDate = game2.StartDate.Value.AddHours(1);
+
+            //Act
+            game.GameType = this.GameTypes.AlleenGaan;
+
+            game.AddDeclarer(player1);
+            game.Overslagen = 0;
+
+            game.AddWinner(this.player1);
+
+            game2.GameType = this.GameTypes.AlleenGaan;
+
+            game2.AddDeclarer(player1);
+            game2.Overslagen = 0;
+
+            game2.AddWinner(this.player1);
+
+            this.Session.Derive();
+
+            //Assert
+            Assert.Equal(12, scoreboard.AccumulatedScores.First(v => v.Player == player1).Value);
+            Assert.Equal(-4, scoreboard.AccumulatedScores.First(v => v.Player == player2).Value);
+            Assert.Equal(-4, scoreboard.AccumulatedScores.First(v => v.Player == player3).Value);
+            Assert.Equal(-4, scoreboard.AccumulatedScores.First(v => v.Player == player4).Value);
+        }
+
+        [Fact]
+        public void TestAccumulatedScoresWithNoGames()
+        {
+            //Arrange
+
+            //Act
+            this.Session.Derive();
+
+            //Assert
+            Assert.Equal(0, scoreboard.AccumulatedScores.First(v => v.Player == player1).Value);
+            Assert.Equal(0, scoreboard.AccumulatedScores.First(v => v.Player == player2).Value);
+            Assert.Equal(0, scoreboard.AccumulatedScores.First(v => v.Player == player3).Value);
+            Assert.Equal(0, scoreboard.AccumulatedScores.First(v => v.Player == player4).Value);
+        }
+
+        [Fact]
+        public void TestAccumulatedScoresWithMultipleGameTypes()
+        {
+            //Arrange
+            var game = new GameBuilder(this.Session).Build();
+            scoreboard.AddGame(game);
+
+            game.StartDate = this.Session.Now();
+            game.EndDate = game.StartDate.Value.AddHours(1);
+
+            var game2 = new GameBuilder(this.Session).Build();
+            scoreboard.AddGame(game2);
+
+            game2.StartDate = this.Session.Now();
+            game2.EndDate = game2.StartDate.Value.AddHours(1);
+
+            var game3 = new GameBuilder(this.Session).Build();
+            scoreboard.AddGame(game3);
+
+            game3.StartDate = this.Session.Now();
+            game3.EndDate = game3.StartDate.Value.AddHours(1);
+
+            //Act
+            game.GameType = this.GameTypes.AlleenGaan;
+
+            game.AddDeclarer(player1);
+            game.Overslagen = 0;
+
+            game.AddWinner(this.player1);
+
+            game2.GameType = this.GameTypes.Troel;
+
+            game2.AddDeclarer(player1);
+            game2.AddDeclarer(player2);
+            game2.Overslagen = 2;
+
+            game2.AddWinner(this.player1);
+            game2.AddWinner(this.player2);
+
+            game3.GameType = this.GameTypes.Miserie;
+
+            game3.AddDeclarer(player1);
+
+            game3.AddWinner(this.player1);
+
+            this.Session.Derive();
+
+            //Assert
+            Assert.Equal(29, scoreboard.AccumulatedScores.First(v => v.Player == player1).Value);
+            Assert.Equal(1, scoreboard.AccumulatedScores.First(v => v.Player == player2).Value);
+            Assert.Equal(-15, scoreboard.AccumulatedScores.First(v => v.Player == player3).Value);
+            Assert.Equal(-15, scoreboard.AccumulatedScores.First(v => v.Player == player4).Value);
+        }
     }
 }

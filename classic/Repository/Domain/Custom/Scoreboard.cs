@@ -37,6 +37,18 @@ namespace Allors.Repository
         [Workspace]
         public Game[] Games { get; set; }
 
+        #region Allors
+
+        [Id("2f11900b-77db-4b8e-a109-958786213f93")]
+        [AssociationId("5246e81c-1659-480a-8cae-b5d2540d3d30")]
+        [RoleId("d6211162-982f-4a97-8d01-afb3d5e0acfa")]
+
+        #endregion Allors
+        [Multiplicity(Multiplicity.OneToMany)]
+        [Synced]
+        [Workspace]
+        public Score[] AccumulatedScores { get; set; }
+
         #region inherited methods
         public void OnBuild()
         {

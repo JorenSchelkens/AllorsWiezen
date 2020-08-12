@@ -25,7 +25,7 @@
             string[,] config =
                 {
                     { "../Allors/Core/Database/Templates/domain.cs.stg", "DataBase/Domain/Generated" },
-                    { "../Allors/Core/Database/Templates/uml.cs.stg", "DataBase/Domain.Diagrams/Generated" },
+                    { "../Allors/Core/Database/Templates/uml.cs.stg", "DataBase/Diagrams/Generated" },
                 };
 
             for (var i = 0; i < config.GetLength(0); i++)

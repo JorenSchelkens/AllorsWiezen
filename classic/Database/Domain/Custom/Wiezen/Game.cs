@@ -13,10 +13,7 @@ namespace Allors.Domain
             var (iteration, changeSet, derivedObjects) = method;
 
             //TODO: check for change
-            foreach (Object score in this.Scores)
-            {
-                iteration.AddDependency(score, this);
-            }
+            iteration.AddDependency(this.ScoreboardWhereGame, this);
         }
 
         public void CustomOnDerive(ObjectOnDerive method)
