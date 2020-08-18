@@ -47,5 +47,6 @@ partial class Build : NukeBuild
 
     Target Default => _ => _
         .DependsOn(ClassicGenerate)
-        .DependsOn(NextGenerate);
+        .DependsOn(NextGenerate)
+        .DependsOn(SecurityGenerate);
 }

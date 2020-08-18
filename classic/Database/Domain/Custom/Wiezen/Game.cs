@@ -32,6 +32,7 @@ namespace Allors.Domain
             this.Sync();
 
         }
+
         private void Sync()
         {
             if (this.ExistScoreboardWhereGame)
